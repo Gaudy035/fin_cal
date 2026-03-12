@@ -1,14 +1,23 @@
 import InputTemp from './subcomponents/InputTemp';
 import ButtonTemp from './subcomponents/ButtonTemp';
-import { useNavigate } from 'react-router-dom';
 
-export default function LoginForm() {
-  const navigate = useNavigate();
-
+export default function RegisterForm() {
   return (
     <div className=' min-w-full flex flex-1 justify-center items-center'>
       <div className='border-2 flex flex-col justify-center items-center px-12 py-6 gap-6 '>
-        <h1 className='font-bold text-2xl'>LOG IN</h1>
+        <h1 className='font-bold text-2xl'>REJESTRACJA</h1>
+        <InputTemp
+          inpType='text'
+          inpText='Imie::'
+          inpId='imie'
+          inpName='imie'
+        />
+        <InputTemp
+          inpType='text'
+          inpText='Nazwisko:'
+          inpId='nazwisko'
+          inpName='nazwisko'
+        />
         <InputTemp
           inpType='email'
           inpText='Email:'
@@ -22,19 +31,11 @@ export default function LoginForm() {
           inpName='haslo'
         />
         <ButtonTemp
-          btnClick={() => console.log('Login!!!')}
-          btnText='LOG-IN'
+          btnClick={() => console.log('SignIN!!!')}
+          btnText='Zarejestruj'
           btnType='submit'
         />
-        <div>
-          <h2>Nie masz konta?</h2>{' '}
-          <a
-            className='underline cursor-pointer'
-            onClick={() => navigate('/rejestracja')}
-          >
-            Zarejestruj sie
-          </a>
-        </div>
+        <div></div>
       </div>
     </div>
   );

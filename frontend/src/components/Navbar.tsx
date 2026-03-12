@@ -1,4 +1,4 @@
-import NavbarButton from './subcomponents/NavbarButton';
+import ButtonTemp from './subcomponents/ButtonTemp';
 import NavbarLink from './subcomponents/NavbarLink';
 import { useNavigate } from 'react-router';
 
@@ -34,7 +34,11 @@ export default function Navbar() {
         </div>
         {/* Buttony */}
         <div className='flex items-center justify-center'>
-          <NavbarButton btnText='LOG IN' btnClick={() => navigate('/login')} />
+          <ButtonTemp
+            btnText='LOG-IN'
+            btnClick={() => navigate('/login')}
+            btnType='button'
+          />
         </div>
       </div>
     </div>

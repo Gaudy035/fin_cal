@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import Dashboard from './components/Dashboard';
 // placeholder
 // import Wip from './components/Wip';
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Dashboard />} />
         <Route path='/login' element={<LoginForm />} />
+        <Route path='/rejestracja' element={<RegisterForm />} />
       </Routes>
     </div>
   );
