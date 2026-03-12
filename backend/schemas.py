@@ -13,7 +13,7 @@ class UzytkownikCreate(UzytkownikBase):
 
 class UzytkownikResponse(UzytkownikBase):
     id_uzytkownika:int
-    czy_aktywny:bool
+    czy_aktywny:bool | None
     model_config = ConfigDict(from_attributes=True)
 
 # endregion uzytkownik
@@ -47,6 +47,7 @@ class TransakcjaResponse(TransakcjaBase):
 # endregion transakcja
 
 # region powtarzalne
+
 class PowtarzalnaBase(TransakcjaBase):
     co_ile:timedelta
     nastepny_termin:date
@@ -59,3 +60,5 @@ class PowtarzalnaResponse(PowtarzalnaBase):
     id_t_powtarzalnej:int
     czy_aktywna:bool
     model_config = ConfigDict(from_attributes=True)
+
+# endregion powtarzalne

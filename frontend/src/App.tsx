@@ -3,8 +3,6 @@ import Navbar from './components/Navbar';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import Dashboard from './components/Dashboard';
-// placeholder
-// import Wip from './components/Wip';
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 interface ButtonTempProps {
-  btnClick: () => void;
+  btnClick?: () => void;
   btnText: string;
   btnType: 'button' | 'submit';
 }

@@ -17,6 +17,7 @@ export default function InputTemp({
       placeholder={inpText}
       id={inpId}
       name={inpName}
+      required
       className='bg-neutral-800 border-2 border-white py-2 px-4'
     />
   );

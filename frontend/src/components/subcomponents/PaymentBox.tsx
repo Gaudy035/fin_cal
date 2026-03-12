@@ -14,8 +14,8 @@ export default function PaymentBox({
   data,
 }: PaymentBoxProps) {
   return (
-    <div className='flex border-2 px-6 py-4 gap-2 flex-col my-4'>
-      <div className='flex flex-row justify-between gap-24'>
+    <div className='flex border-2 px-6 py-4 gap-2 flex-col my-4 w-9/10'>
+      <div className='flex flex-row justify-between w-full'>
         <h2>{tytul}</h2>
         <h2>{data}</h2>
       </div>

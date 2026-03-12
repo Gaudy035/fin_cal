@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('user_id');
+
+  const logOut = () => {
+    localStorage.removeItem('user_id');
+    navigate('/');
+  };
 
   return (
     <div className='px-4 pt-4'>
@@ -35,8 +41,8 @@ export default function Navbar() {
         {/* Buttony */}
         <div className='flex items-center justify-center'>
           <ButtonTemp
-            btnText='LOG-IN'
-            btnClick={() => navigate('/login')}
+            btnText={isLoggedIn ? 'LOG-OUT' : 'LOG-IN'}
+            btnClick={isLoggedIn ? () => logOut() : () => navigate('/login')}
             btnType='button'
           />
         </div>
