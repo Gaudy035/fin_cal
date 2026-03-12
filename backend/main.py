@@ -33,13 +33,13 @@ def read_root():
 # region wydatki/wplaty
 
 @app.get("/wplywy", response_model=List[schemas.TransakcjaResponse])
-def get_wplywy(db:Session = Depends(get_db)):
-    wplywy = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wplyw').all()
+def get_wplywy(user_id:int, db:Session = Depends(get_db)):
+    wplywy = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wplyw', models.TransakcjaDB.id_uzytkownika==user_id).all()
     return wplywy
 
 @app.get("/wydatki", response_model=List[schemas.TransakcjaResponse])
-def get_wydatki(db:Session = Depends(get_db)):
-    wydatki = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wydatek').all()
+def get_wydatki(user_id:int, db:Session = Depends(get_db)):
+    wydatki = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wydatek', models.TransakcjaDB.id_uzytkownika==user_id).all()
     return wydatki
 
 # endregion wydatki/wplaty

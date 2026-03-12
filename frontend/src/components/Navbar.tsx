@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem('user_id');
+  const isLoggedIn = localStorage.getItem('user_id');
 
   const logOut = () => {
     localStorage.removeItem('user_id');
-    navigate('/');
+    window.location.reload();
   };
 
   return (

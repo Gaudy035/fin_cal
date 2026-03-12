@@ -31,7 +31,7 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.user_id = data.id_uzytkownika;
+        localStorage.setItem('user_id', data.user_id);
         navigate('/');
       } else {
         setError(data.detail || 'Wystapil blad logowania');
