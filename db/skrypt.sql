@@ -49,3 +49,14 @@ CREATE TABLE t_t_powtarzalne(
 	nastepny_termin DATE NOT NULL,
 	czy_aktywna BOOLEAN DEFAULT TRUE
 );
+
+INSERT INTO t_kategorie (nazwa) VALUES ('rozrywka');
+INSERT INTO t_kategorie (nazwa) VALUES ('transport');
+INSERT INTO t_kategorie (nazwa) VALUES ('jedzenie');
+
+INSERT INTO t_uzytkownik (imie, nazwisko, email, haslo) VALUES ('test', 'test', 'test@example.com', 'testpass');
+
+INSERT INTO t_transakcje (id_uzytkownika, id_kategorii, typ, tytul, opis, kwota, metoda)
+	VALUES (1,1,'wydatek', 'TEST1', 'testetstststststs', 1000, 'gotowka');
+INSERT INTO t_transakcje (id_uzytkownika, id_kategorii, typ, tytul, opis, kwota, metoda)
+	VALUES (1,1,'wplyw', 'TEST2', 'testetstststststs', 1000, 'gotowka');

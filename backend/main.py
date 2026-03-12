@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from database import engine, get_db, Base
+from typing import List
 
 
 app = FastAPI()
@@ -28,3 +29,13 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {'message':'API IS WORKING'}
+
+@app.get("/wplywy", response_model=List[schemas.TransakcjaResponse])
+def get_wplywy(db:Session = Depends(get_db)):
+    wplywy = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wplyw').all()
+    return wplywy
+
+@app.get("/wydatki", response_model=List[schemas.TransakcjaResponse])
+def get_wydatki(db:Session = Depends(get_db)):
+    wydatki = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wydatek')
+    return wydatki
