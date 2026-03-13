@@ -42,6 +42,15 @@ def get_wydatki(user_id:int, db:Session = Depends(get_db)):
     wydatki = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wydatek', models.TransakcjaDB.id_uzytkownika==user_id).all()
     return wydatki
 
+@app.post("/add_payment", response_model=schemas.TransakcjaResponse)
+def add_payment(payment:schemas.TransakcjaCreate, db:Session = Depends(get_db)):
+    new_payment = models.TransakcjaDB(**payment.model_dump())
+    db.add(new_payment)
+    db.commit()
+    db.refresh(new_payment)
+    return new_payment
+
+
 # endregion wydatki/wplaty
 
 # region uzytkownik
@@ -79,3 +88,12 @@ def login_user(creds:schemas.UzytkownikCreate, db:Session = Depends(get_db)):
     }
 
 # endregion uzytkownik
+
+# region kategorie
+
+@app.get("/kategorie", response_model=List[schemas.Kategoria])
+def get_kategoria(db:Session = Depends(get_db)):
+    kategorie = db.query(models.KategoriaDB).all()
+    return kategorie
+
+# endregion kategorie

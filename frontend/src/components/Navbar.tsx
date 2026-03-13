@@ -25,16 +25,13 @@ export default function Navbar() {
         </div>
         {/* Linki */}
         <div className='flex items-center gap-12 justify-center'>
+          <NavbarLink linkText='DASHBOARD' linkClick={() => navigate('/')} />
           <NavbarLink
-            linkText='LINK 1'
-            linkClick={() => console.log('Link 1')}
-          />
-          <NavbarLink
-            linkText='LINK 2'
+            linkText='KALENDARZ'
             linkClick={() => console.log('Link 2')}
           />
           <NavbarLink
-            linkText='LINK 3'
+            linkText='WYKRESY'
             linkClick={() => console.log('Link 3')}
           />
         </div>
