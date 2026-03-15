@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('user_id');
+  const token = localStorage.getItem('token');
 
   const logOut = () => {
-    localStorage.removeItem('user_id');
+    localStorage.removeItem('token');
     window.location.reload();
   };
 
@@ -38,8 +38,8 @@ export default function Navbar() {
         {/* Buttony */}
         <div className='flex items-center justify-center'>
           <ButtonTemp
-            btnText={isLoggedIn ? 'LOG-OUT' : 'LOG-IN'}
-            btnClick={isLoggedIn ? () => logOut() : () => navigate('/login')}
+            btnText={token ? 'LOG-OUT' : 'LOG-IN'}
+            btnClick={token ? () => logOut() : () => navigate('/login')}
             btnType='button'
           />
         </div>

@@ -26,7 +26,7 @@ class Kategoria(BaseModel):
 # region transakcja
 
 class TransakcjaBase(BaseModel):
-    id_uzytkownika:int
+    id_uzytkownika:int | None = None
     id_kategorii:int | None = None
     typ:str
     tytul:str

@@ -1,5 +1,7 @@
 CREATE DATABASE fin_calc_db;
 
+\c fin_calc_db;
+
 CREATE TABLE t_uzytkownik(
 	id_uzytkownika SERIAL PRIMARY KEY,
 	imie VARCHAR(30) NOT NULL,
@@ -53,10 +55,10 @@ CREATE TABLE t_t_powtarzalne(
 INSERT INTO t_kategorie (nazwa) VALUES ('rozrywka');
 INSERT INTO t_kategorie (nazwa) VALUES ('transport');
 INSERT INTO t_kategorie (nazwa) VALUES ('jedzenie');
+INSERT INTO t_kategorie (nazwa) VALUES ('pozostale');
+-- INSERT INTO t_uzytkownik (imie, nazwisko, email, haslo) VALUES ('test', 'test', 'test@example.com', 'testpass');
 
-INSERT INTO t_uzytkownik (imie, nazwisko, email, haslo) VALUES ('test', 'test', 'test@example.com', 'testpass');
-
-INSERT INTO t_transakcje (id_uzytkownika, id_kategorii, typ, tytul, opis, kwota, metoda)
-	VALUES (1,1,'wydatek', 'TEST1', 'testetstststststs', 1000, 'gotowka');
-INSERT INTO t_transakcje (id_uzytkownika, id_kategorii, typ, tytul, opis, kwota, metoda)
-	VALUES (1,1,'wplyw', 'TEST2', 'testetstststststs', 1000, 'gotowka');
+-- INSERT INTO t_transakcje (id_uzytkownika, id_kategorii, typ, tytul, opis, kwota, metoda)
+-- 	VALUES (1,1,'wydatek', 'TEST1', 'testetstststststs', 1000, 'gotowka');
+-- INSERT INTO t_transakcje (id_uzytkownika, id_kategorii, typ, tytul, opis, kwota, metoda)
+-- 	VALUES (1,1,'wplyw', 'TEST2', 'testetstststststs', 1000, 'gotowka');
