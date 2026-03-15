@@ -32,7 +32,7 @@ export default function Navbar() {
           />
           <NavbarLink
             linkText='WYKRESY'
-            linkClick={() => console.log('Link 3')}
+            linkClick={() => navigate('/wykresy')}
           />
         </div>
         {/* Buttony */}

@@ -18,6 +18,7 @@ function App() {
         <Route path='/nowy' element={<PaymentForm />} />
         <Route path='/wip' element={<Wip />} />
         <Route path='/kalendarz' element={<Calendar />} />
+        <Route path='/wykresy' element={<Wip />} />
       </Routes>
     </div>
   );
