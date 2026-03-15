@@ -25,7 +25,10 @@ export default function LeftPanel() {
   }, [token]);
 
   return (
-    <div className='flex flex-1 max-w-1/2 border-2 border-white justify-start items-center flex-col min-h-full py-6'>
+    <div className='flex flex-1 max-w-1/2 border-2 border-white justify-start items-center flex-col min-h-full py-6 relative'>
+      <h1 className='absolute text-lg -top-3.5 left-48 px-2 bg-neutral-800'>
+        Wplywy
+      </h1>
       {token
         ? wplywy.map((item) => (
             <PaymentBox
