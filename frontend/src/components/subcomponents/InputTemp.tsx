@@ -20,7 +20,7 @@ export default function InputTemp({
       id={inpId}
       name={inpName}
       required={!optional}
-      className='bg-neutral-800 border-2 border-white py-2 px-4'
+      className='bg-neutral-800 border-2 border-white py-2 px-4 w-full'
     />
   );
 }

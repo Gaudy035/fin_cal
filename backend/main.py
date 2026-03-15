@@ -33,7 +33,7 @@ app.add_middleware(
 
 SECRET_KEY = "JWT_SECRET_KEY"
 ALGORITHM = "HS256"
-TOKEN_EXPIRE_MINS = 60
+TOKEN_EXPIRE_MINS = 600
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
@@ -92,6 +92,21 @@ def add_payment(payment:schemas.TransakcjaCreate, db:Session = Depends(get_db), 
     db.refresh(new_payment)
     return new_payment
 
+@app.post("/add_recurring", response_model=schemas.PowtarzalnaResponse)
+def add_recurring(payment:schemas.PowtarzalnaCreate, db:Session = Depends(get_db), current_user:models.UzytkownikDB = Depends(get_current_user)):
+    payment_data = payment.model_dump()
+    payment_data["id_uzytkownika"] = current_user.id_uzytkownika
+
+    new_recurring = models.PowtarzalnaDB(**payment_data)
+    db.add(new_recurring)
+    db.commit()
+    db.refresh(new_recurring)
+    return new_recurring
+
+@app.get("/get_recurring", response_model=List[schemas.PowtarzalnaResponse])
+def get_recurring(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):
+    powtarzalne = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(asc(models.PowtarzalnaDB.nastepny_termin)).all()
+    return powtarzalne
 
 # endregion wydatki/wplaty
 

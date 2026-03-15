@@ -12,7 +12,9 @@ interface Kategoria {
 export default function PaymentForm() {
   const navigate = useNavigate();
   const [kategorie, setKategorie] = useState<Kategoria[]>([]);
-  const userId = localStorage.getItem('user_id');
+  const [isRecurring, setRecurring] = useState<Boolean>(false);
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/kategorie')
@@ -27,17 +29,32 @@ export default function PaymentForm() {
     const formData = new FormData(event.currentTarget);
     const formValues = Object.fromEntries(formData.entries());
 
-    const payload = { id_uzytkownika: userId, ...formValues };
+    let payload = { ...formValues };
+    delete payload.czy_powt;
+
+    let endpoint = 'http://127.0.0.1:8000/add_payment';
+    if (isRecurring) {
+      endpoint = 'http://127.0.0.1:8000/add_recurring';
+      payload.nastepny_termin = formValues.data;
+      delete payload.data;
+    } else {
+      delete payload.co_ile;
+    }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/add_payment', {
+      const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         navigate('/');
+      } else {
+        console.log(response);
       }
     } catch (error) {
       console.log('Blad polaczenia z API: ', error);
@@ -88,6 +105,13 @@ export default function PaymentForm() {
 
           {/* Prawa strona */}
           <div className='flex flex-col justify-center items-center gap-6'>
+            <InputTemp
+              inpId='data'
+              inpText='Data:'
+              inpName='data'
+              inpType='date'
+            />
+
             <InputTemp
               inpId='kwota'
               inpText='Kwota:'
@@ -142,6 +166,28 @@ export default function PaymentForm() {
               </div>
             </div>
           </div>
+        </div>
+        <div className='flex justify-center flex-col gap-2 items-center'>
+          <div className='flex justify-center items-center gap-2'>
+            <input
+              type='checkbox'
+              name='czy_powt'
+              onChange={(e) => setRecurring(e.target.checked)}
+            />
+            <label htmlFor='czy_powt'>Czy powtarzalna?</label>
+          </div>
+          <select
+            name='co_ile'
+            id='co_ile'
+            className={isRecurring ? 'border-2' : 'hidden'}
+          >
+            <option value='' disabled>
+              Co ile?
+            </option>
+            <option value='7 days'>Tydzien</option>
+            <option value='30 days'>Miesiac</option>
+            <option value='365 days'>Rok</option>
+          </select>
         </div>
         <ButtonTemp btnText='ZAPISZ' btnType='submit' />
       </form>

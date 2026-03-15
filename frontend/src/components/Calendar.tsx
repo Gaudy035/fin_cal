@@ -4,7 +4,7 @@ import Past from './Calendar/Past';
 import Upcoming from './Calendar/Upcoming';
 
 export default function Calendar() {
-  const [view, setView] = useState<'przeszle' | 'nadchodzace'>('przeszle');
+  const [view, setView] = useState<'przeszle' | 'nadchodzace'>('nadchodzace');
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -18,15 +18,15 @@ export default function Calendar() {
       <div className='flex flex-1 flex-col justify-start w-screen'>
         <div className='flex justify-center gap-12 py-4'>
           <NavbarLink
-            linkClick={() => setView('przeszle')}
-            linkText='Przeszle'
-          />
-          <NavbarLink
             linkClick={() => setView('nadchodzace')}
             linkText='Nadchodzace'
           />
+          <NavbarLink
+            linkClick={() => setView('przeszle')}
+            linkText='Przeszle'
+          />
         </div>
-        <div className='flex flex-1 justify-center items-center w-screen'>
+        <div className='flex flex-1 justify-center items-start w-screen'>
           {view == 'przeszle' ? <Past /> : <Upcoming />}
         </div>
       </div>

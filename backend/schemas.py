@@ -55,7 +55,6 @@ class PowtarzalnaBase(TransakcjaBase):
 class PowtarzalnaCreate(PowtarzalnaBase):
     pass
     
-
 class PowtarzalnaResponse(PowtarzalnaBase):
     id_t_powtarzalnej:int
     czy_aktywna:bool
