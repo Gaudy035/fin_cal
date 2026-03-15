@@ -3,19 +3,10 @@ import { useState, useEffect } from 'react';
 import type Transakcja from './Transakcja';
 
 export default function RightPanel() {
-  // const [userId, SetUserId] = useState<string | null>(
-  // localStorage.getItem('user_id'),
-  // );
   const token = localStorage.getItem('token');
   const [wydatki, setWydatki] = useState<Transakcja[]>([]);
 
   useEffect(() => {
-    // fetch(`http://127.0.0.1:8000/wydatki?user_id=${userId}`)
-    //   .then((response) => response.json())
-    //   .then((data: Transakcja[]) => setWydatki(data))
-    //   .catch((error) =>
-    //     console.log('Blad przy pobieraniu wydatkow: ', error),
-    //   );
     if (!token) {
       setWydatki([]);
       return;

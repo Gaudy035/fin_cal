@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import Dashboard from './components/Dashboard';
 import PaymentForm from './components/PaymentForm';
+import Calendar from './components/Calendar';
 import Wip from './components/Wip';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path='/rejestracja' element={<RegisterForm />} />
         <Route path='/nowy' element={<PaymentForm />} />
         <Route path='/wip' element={<Wip />} />
+        <Route path='/kalendarz' element={<Calendar />} />
       </Routes>
     </div>
   );

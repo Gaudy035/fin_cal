@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
+from sqlalchemy import desc, asc
 import models
 import schemas
 from database import engine, get_db, Base
@@ -65,6 +65,11 @@ def read_root():
     return {'message':'API IS WORKING'}
 
 # region wydatki/wplaty
+
+@app.get('/transakcje', response_model=List[schemas.TransakcjaResponse])
+def get_transakcje(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session=Depends(get_db)):
+    transakcje = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(desc(models.TransakcjaDB.data)).all()
+    return transakcje
 
 @app.get("/wplywy", response_model=List[schemas.TransakcjaResponse])
 def get_wplywy(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):

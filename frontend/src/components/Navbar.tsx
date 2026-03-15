@@ -28,7 +28,7 @@ export default function Navbar() {
           <NavbarLink linkText='DASHBOARD' linkClick={() => navigate('/')} />
           <NavbarLink
             linkText='KALENDARZ'
-            linkClick={() => console.log('Link 2')}
+            linkClick={() => navigate('/kalendarz')}
           />
           <NavbarLink
             linkText='WYKRESY'

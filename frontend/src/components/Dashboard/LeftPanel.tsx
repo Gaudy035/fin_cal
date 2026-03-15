@@ -3,7 +3,6 @@ import PaymentBox from '../subcomponents/PaymentBox';
 import type Transakcja from './Transakcja';
 
 export default function LeftPanel() {
-  // const userId = localStorage.getItem('user_id');
   const token = localStorage.getItem('token');
   const [wplywy, setWplywy] = useState<Transakcja[]>([]);
 
