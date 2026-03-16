@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from sqlalchemy import desc, asc
+from sqlalchemy import desc, asc, func
 import models
 import schemas
 from database import engine, get_db, Base
@@ -107,6 +107,11 @@ def add_recurring(payment:schemas.PowtarzalnaCreate, db:Session = Depends(get_db
 def get_recurring(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):
     powtarzalne = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(asc(models.PowtarzalnaDB.nastepny_termin)).all()
     return powtarzalne
+
+@app.get("/get_stats")
+def get_stats(current_user:models.UzytkownikDB=Depends(get_current_user), db:Session = Depends(get_db)):
+    stats = db.query(models.KategoriaDB.nazwa.label("nazwa_kat"), func.sum(models.TransakcjaDB.kwota).label('total')).join(models.TransakcjaDB, models.KategoriaDB.id_kategorii==models.TransakcjaDB.id_kategorii).filter(models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika, models.TransakcjaDB.typ=='wydatek').group_by(models.KategoriaDB.nazwa).all()
+    return [{"Kategoria":stat.nazwa_kat,'kwota':stat.total} for stat in stats]
 
 # endregion wydatki/wplaty
 
