@@ -9,13 +9,13 @@ export default function Calendar() {
 
   if (!token) {
     return (
-      <div className='flex flex-1 flex-col items-center py-4 justify-start w-screen'>
+      <div className='flex flex-1 flex-col items-center py-4 justify-start w-full'>
         Zaloguj sie by wyswietlic kalendarz
       </div>
     );
   } else {
     return (
-      <div className='flex flex-1 flex-col justify-start w-screen'>
+      <div className='flex flex-1 flex-col justify-start w-full'>
         <div className='flex justify-center gap-12 py-4'>
           <NavbarLink
             linkClick={() => setView('nadchodzace')}
@@ -26,7 +26,7 @@ export default function Calendar() {
             linkText='Przeszle'
           />
         </div>
-        <div className='flex flex-1 justify-center items-start w-screen'>
+        <div className='flex flex-1 justify-center items-start w-full'>
           {view == 'przeszle' ? <Past /> : <Upcoming />}
         </div>
       </div>
