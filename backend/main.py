@@ -1,17 +1,72 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, asc, func
 import models
 import schemas
-from database import engine, get_db, Base
+from database import engine, get_db, SessionLocal
 from typing import List
 from passwords import hash_password, verify_password
 import jwt
 from datetime import datetime, timedelta, timezone
 from fastapi.security import OAuth2PasswordBearer
+from apscheduler.schedulers.background import BackgroundScheduler
+from dateutil.relativedelta import relativedelta
+import isodate
 
-app = FastAPI()
+# region scheduler
+
+def process_recurring():
+    print(f'[{datetime.now()}] Sprawdzanie powtarzalnych')
+    db = SessionLocal()
+    try:
+        now = datetime.now().date()
+        payments = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.nastepny_termin<=now).all()
+
+        for rp in payments:
+            try:
+                interval = isodate.parse_duration(rp.co_ile)
+            except Exception as e:
+                print(f"Blad Formatu dla platnosci ID:{rp.id_t_powtarzalnej} - {rp.tytul}:{rp.co_ile}")
+                continue
+
+            new_payment = models.TransakcjaDB(
+                id_uzytkownika = rp.id_uzytkownika,
+                id_kategorii = rp.id_kategorii,
+                kwota = rp.kwota,
+                tytul = rp.tytul,
+                opis = rp.opis,
+                typ = rp.typ,
+                data = rp.nastepny_termin
+            )
+            db.add(new_payment)
+
+            rp.nastepny_termin+=interval
+            
+            print(f"Przetworzono {rp.tytul} dla {rp.id_uzytkownika}")
+        db.commit()
+
+    except Exception as e:
+        print(f"Blad podczas przetwarzania: {e}")
+        db.rollback()
+    finally:
+        db.close()
+
+@asynccontextmanager
+async def lifespan(app:FastAPI):
+    print("SCHEDULER START")
+    scheduler = BackgroundScheduler()
+    scheduler.start()
+    scheduler.add_job(process_recurring, 'interval', hours=12)
+    process_recurring()
+    yield
+    print("SCHEDULER STOP")
+    scheduler.shutdown()
+
+# endregion scheduler
+
+app = FastAPI(lifespan=lifespan)
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -108,6 +163,10 @@ def get_recurring(current_user:models.UzytkownikDB = Depends(get_current_user), 
     powtarzalne = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(asc(models.PowtarzalnaDB.nastepny_termin)).all()
     return powtarzalne
 
+# endregion wydatki/wplaty
+
+# region statystyki
+
 @app.get("/get_stats")
 def get_stats(current_user:models.UzytkownikDB=Depends(get_current_user), db:Session = Depends(get_db)):
     stats = db.query(models.KategoriaDB.nazwa.label("nazwa_kat"), func.sum(models.TransakcjaDB.kwota).label('total')).join(models.TransakcjaDB, models.KategoriaDB.id_kategorii==models.TransakcjaDB.id_kategorii).filter(models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika, models.TransakcjaDB.typ=='wydatek').group_by(models.KategoriaDB.nazwa).all()
@@ -118,7 +177,7 @@ def get_summary(current_user:models.UzytkownikDB=Depends(get_current_user), db:S
     summary = db.query(models.TransakcjaDB.typ, func.sum(models.TransakcjaDB.kwota).label('kwota')).filter(models.UzytkownikDB.id_uzytkownika==current_user.id_uzytkownika).group_by(models.TransakcjaDB.typ).all()
     return [{"typ":s.typ,"kwota":s.kwota} for s in summary]
 
-# endregion wydatki/wplaty
+# endregion statystyki
 
 # region uzytkownik
 
