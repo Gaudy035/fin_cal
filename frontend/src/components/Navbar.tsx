@@ -1,19 +1,17 @@
 import ButtonTemp from './subcomponents/ButtonTemp';
 import NavbarLink from './subcomponents/NavbarLink';
 import { useNavigate } from 'react-router';
+import UserSettings from './subcomponents/UserSettings';
+import { useState } from 'react';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-
-  const logOut = () => {
-    localStorage.removeItem('token');
-    window.location.reload();
-  };
+  const [vis, setVis] = useState<boolean>(false);
 
   return (
     <div className='px-4 pt-4'>
-      <div className='flex flex-row w-full justify-between items-center px-12 h-20 border-2'>
+      <div className='flex flex-row w-full justify-between items-center px-12 h-20 border-2 relative'>
         {/* Logo */}
         <div>
           <h1
@@ -36,12 +34,17 @@ export default function Navbar() {
           />
         </div>
         {/* Buttony */}
-        <div className='flex items-center justify-center'>
+        <div className='flex items-center justify-center '>
           <ButtonTemp
-            btnText={token ? 'LOG-OUT' : 'LOG-IN'}
-            btnClick={token ? () => logOut() : () => navigate('/login')}
+            btnText={token ? 'SETTINGS' : 'LOG-IN'}
+            btnClick={
+              token
+                ? () => (vis ? setVis(false) : setVis(true))
+                : () => navigate('/login')
+            }
             btnType='button'
           />
+          <UserSettings visibility={vis} change={() => setVis(false)} />
         </div>
       </div>
     </div>

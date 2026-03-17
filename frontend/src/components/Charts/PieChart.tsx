@@ -5,7 +5,7 @@ import {
   Legend,
   plugins,
 } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 
 interface Stat {
@@ -81,7 +81,7 @@ export default function PieChart() {
   return (
     <div className='flex justify-start flex-col items-center w-full max-h-screen flex-1'>
       <div className='flex flex-1 justify-start flex-col py-6 w-1/3 items-center h-full'>
-        <Pie data={chartData} options={options} />
+        <Doughnut data={chartData} options={options} />
       </div>
     </div>
   );

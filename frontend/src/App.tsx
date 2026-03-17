@@ -6,14 +6,18 @@ import Dashboard from './components/Dashboard';
 import PaymentForm from './components/PaymentForm';
 import Calendar from './components/Calendar';
 import Charts from './components/Charts';
+// import UserSettings from './components/subcomponents/UserSettings';
+
+// import Wip from './components/Wip';
 
 function App() {
   return (
-    <div className='min-h-screen flex flex-col bg-neutral-800 text-white font-mono justify-start'>
+    <div className='min-h-screen flex flex-col bg-neutral-800 text-white font-mono justify-start  '>
       <Navbar />
       <Routes>
         <Route path='/' element={<Dashboard />} />
         <Route path='/login' element={<LoginForm />} />
+        {/* <Route path='/settings' element={<UserSettings />} /> */}
         <Route path='/rejestracja' element={<RegisterForm />} />
         <Route path='/nowy' element={<PaymentForm />} />
         <Route path='/kalendarz' element={<Calendar />} />
