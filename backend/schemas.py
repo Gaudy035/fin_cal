@@ -16,6 +16,14 @@ class UzytkownikResponse(UzytkownikBase):
     czy_aktywny:bool | None
     model_config = ConfigDict(from_attributes=True)
 
+class EmailChange(BaseModel):
+    current_pass:str
+    new_email:str
+
+class PasswordChange(BaseModel):
+    current_pass:str
+    new_pass:str
+
 # endregion uzytkownik
 
 class Kategoria(BaseModel):

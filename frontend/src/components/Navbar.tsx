@@ -1,7 +1,7 @@
 import ButtonTemp from './subcomponents/ButtonTemp';
 import NavbarLink from './subcomponents/NavbarLink';
 import { useNavigate } from 'react-router';
-import UserSettings from './subcomponents/UserSettings';
+import UserSettings from './UserSettings/UserSettings';
 import { useState } from 'react';
 
 export default function Navbar() {

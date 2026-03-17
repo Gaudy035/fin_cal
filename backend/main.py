@@ -157,6 +157,28 @@ def login_user(creds:schemas.UzytkownikCreate, db:Session = Depends(get_db)):
         "message": "zalogowano pomyslnie"
     }
 
+@app.put("/update_email")
+def update_email( data:schemas.EmailChange, current_user:models.UzytkownikDB=Depends(get_current_user), db:Session = Depends(get_db)):
+    if not verify_password(data.current_pass, current_user.haslo):
+        raise HTTPException(status_code=400, detail="Niepoprawne haslo")
+    
+    email_exists = db.query(models.UzytkownikDB).filter(models.UzytkownikDB.email==data.new_email).first()
+    if email_exists:
+        raise HTTPException(status_code=400, detail="Email jest juz zajety")
+    
+    current_user.email=data.new_email
+    db.commit()
+    return{"message":"email zmienono pomyslnie"}
+
+@app.put("/update_password")
+def update_password(data:schemas.PasswordChange, current_user:models.UzytkownikDB=Depends(get_current_user), db:Session=Depends(get_db)):
+    if not verify_password(data.current_pass, current_user.haslo):
+        raise HTTPException(status_code=400, detail="Nieprawidlowe haslo")
+    
+    current_user.haslo = hash_password(data.new_pass)
+    db.commit()
+    return {"message": "Zmiana hasla pomyslna"}
+
 # endregion uzytkownik
 
 # region kategorie
