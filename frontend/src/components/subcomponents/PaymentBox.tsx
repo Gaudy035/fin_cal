@@ -37,7 +37,9 @@ export default function PaymentBox({
           </p>
         </div>
       </div>
-      <p>{opis ? opis : ''}</p>
+      <div>
+        <p>{opis ? opis : ''}</p>
+      </div>
     </div>
   );
 }

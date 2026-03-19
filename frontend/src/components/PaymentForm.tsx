@@ -184,9 +184,9 @@ export default function PaymentForm() {
             <option value='' disabled>
               Co ile?
             </option>
-            <option value='7 days'>Tydzien</option>
-            <option value='30 days'>Miesiac</option>
-            <option value='365 days'>Rok</option>
+            <option value='P7D'>Tydzien</option>
+            <option value='P30D'>Miesiac</option>
+            <option value='P1Y'>Rok</option>
           </select>
         </div>
         <ButtonTemp btnText='ZAPISZ' btnType='submit' />

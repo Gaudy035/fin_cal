@@ -170,7 +170,7 @@ def modify_recurring(id_t_powtarzalnej:int, data:schemas.PowtarzalnaUpdate, curr
     if not recurring:
         raise HTTPException(status_code=404, detail="Nie znaleziono transakcji")
     
-    update_data = data.model_dump(exclude_unset=True)
+    update_data = data.model_dump(exclude={'id_uzytkownika'})
     for key, val in update_data.items():
         setattr(recurring, key, val)
 
