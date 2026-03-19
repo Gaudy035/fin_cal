@@ -4,6 +4,7 @@ interface InputTempProps {
   inpId: string;
   inpName: string;
   optional?: boolean;
+  inpVal?: string | number;
 }
 
 export default function InputTemp({
@@ -12,6 +13,7 @@ export default function InputTemp({
   inpId,
   inpName,
   optional,
+  inpVal,
 }: InputTempProps) {
   return (
     <input
@@ -20,6 +22,7 @@ export default function InputTemp({
       id={inpId}
       name={inpName}
       required={!optional}
+      defaultValue={inpVal ? inpVal : ''}
       className='bg-neutral-800 border-2 border-white py-2 px-4 w-full'
     />
   );

@@ -10,8 +10,8 @@ export default function Navbar() {
   const [vis, setVis] = useState<boolean>(false);
 
   return (
-    <div className='px-4 pt-4'>
-      <div className='flex flex-row w-full justify-between items-center px-12 h-20 border-2 relative'>
+    <div className='px-4 pt-4 sticky top-0 z-10 bg-neutral-800'>
+      <div className='flex flex-row w-full justify-between items-center px-12 h-20 border-2 relative '>
         {/* Logo */}
         <div>
           <h1

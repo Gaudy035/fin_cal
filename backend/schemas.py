@@ -57,7 +57,7 @@ class TransakcjaResponse(TransakcjaBase):
 # region powtarzalne
 
 class PowtarzalnaBase(TransakcjaBase):
-    co_ile:timedelta
+    co_ile:str
     nastepny_termin:date
 
 class PowtarzalnaCreate(PowtarzalnaBase):
@@ -67,5 +67,8 @@ class PowtarzalnaResponse(PowtarzalnaBase):
     id_t_powtarzalnej:int
     czy_aktywna:bool
     model_config = ConfigDict(from_attributes=True)
+
+class PowtarzalnaUpdate(PowtarzalnaBase):
+    czy_aktywna:bool
 
 # endregion powtarzalne

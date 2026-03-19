@@ -26,13 +26,14 @@ export default function UserSettings({
   return (
     <>
       <div
-        className='max-h-full min-w-full fixed inset-0 z-10'
+        className='max-h-full min-w-full fixed inset-0 z-20'
         onClick={change}
       ></div>
       <div
-        className=' flex flex-col justify-center items-center px-6 py-6 gap-6 border-2 absolute top-full right-0 min-w-max bg-neutral-800 z-20'
+        className=' flex flex-col justify-center items-center px-6 py-6 gap-6 border-2 absolute top-full right-0 min-w-max bg-neutral-800 z-30'
         onClick={change}
       >
+        <h1 className='font-bold'>KONTO</h1>
         <ButtonTemp
           reverse
           btnType='button'

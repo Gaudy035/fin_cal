@@ -67,7 +67,7 @@ class PowtarzalnaDB(Base):
     metoda = Column(String(10), nullable=False)
     konto = Column(String(50), nullable=True)
     wlasciciel_konta = Column(String(100), nullable=True)
-    co_ile = Column(Interval)
+    co_ile = Column(String(10))
     nastepny_termin = Column(Date)
     czy_aktywna = Column(Boolean, default=True)
     # checki

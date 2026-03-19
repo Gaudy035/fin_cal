@@ -47,7 +47,7 @@ CREATE TABLE t_t_powtarzalne(
 	metoda VARCHAR(10) CHECK (metoda IN ('gotowka', 'przelew')),
 	konto VARCHAR(50),
 	wlasciciel_konta VARCHAR(100),
-	co_ile INTERVAL,
+	co_ile VARCHAR(10),
 	nastepny_termin DATE NOT NULL,
 	czy_aktywna BOOLEAN DEFAULT TRUE
 );

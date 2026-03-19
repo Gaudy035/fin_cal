@@ -11,4 +11,5 @@ export default interface TPowtarzalna {
   wlasciciel_konta: string | null;
   nastepny_termin: string;
   co_ile: string;
+  czy_aktywna: boolean | number;
 }

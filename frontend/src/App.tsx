@@ -8,7 +8,7 @@ import Calendar from './components/Calendar';
 import Charts from './components/Charts';
 import PassChange from './components/UserSettings/PassChange';
 import EmailChange from './components/UserSettings/EmailChange';
-
+import RecurringForm from './components/RecurringForm';
 // import Wip from './components/Wip';
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
         <Route path='/nowy' element={<PaymentForm />} />
         <Route path='/kalendarz' element={<Calendar />} />
         <Route path='/wykresy' element={<Charts />} />
+        <Route path='/modify' element={<RecurringForm />} />
       </Routes>
     </div>
   );

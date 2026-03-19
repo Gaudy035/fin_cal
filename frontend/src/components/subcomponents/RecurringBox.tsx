@@ -1,4 +1,9 @@
+import NavbarLink from './NavbarLink';
+import { useNavigate } from 'react-router';
+
 interface RecurringBoxProps {
+  id_t_powtarzalnej: number;
+  id_kategorii: number | null;
   kwota: number;
   tytul: string;
   opis?: string | null;
@@ -8,9 +13,12 @@ interface RecurringBoxProps {
   konto?: string | null;
   metoda?: string;
   co_ile: string;
+  czy_aktywna: boolean | number;
 }
 
 export default function RecurringBox({
+  id_t_powtarzalnej,
+  id_kategorii,
   kwota,
   tytul,
   opis,
@@ -20,7 +28,10 @@ export default function RecurringBox({
   typ,
   nastepny_termin,
   co_ile,
+  czy_aktywna,
 }: RecurringBoxProps) {
+  const navigate = useNavigate();
+
   const durConv = function (co_ile: string) {
     switch (co_ile) {
       case 'P30D':
@@ -30,6 +41,25 @@ export default function RecurringBox({
       case 'P1Y':
         return 'rok';
     }
+  };
+
+  const handleModify = () => {
+    navigate('/modify', {
+      state: {
+        id_t_powtarzalnej,
+        id_kategorii,
+        kwota,
+        tytul,
+        opis,
+        wlasciciel_konta,
+        konto,
+        metoda,
+        typ,
+        nastepny_termin,
+        co_ile,
+        czy_aktywna,
+      },
+    });
   };
 
   return (
@@ -53,7 +83,13 @@ export default function RecurringBox({
           </p>
         </div>
       </div>
-      <p>{opis ? opis : ''}</p>
+      <div className='flex flex-col justify-center items-start'>
+        <p>{opis ? opis : ''}</p>
+        <p className={czy_aktywna ? 'text-green-600' : 'text-red-600'}>
+          {czy_aktywna ? 'AKTYWNA' : 'NIEAKTYWNA'}
+        </p>
+        <NavbarLink linkClick={handleModify} linkText='*Modyfikuj*' />
+      </div>
     </div>
   );
 }

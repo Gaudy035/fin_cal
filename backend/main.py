@@ -22,7 +22,7 @@ def process_recurring():
     db = SessionLocal()
     try:
         now = datetime.now().date()
-        payments = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.nastepny_termin<=now).all()
+        payments = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.nastepny_termin<=now, models.PowtarzalnaDB.czy_aktywna==True).all()
 
         for rp in payments:
             try:
@@ -162,6 +162,26 @@ def add_recurring(payment:schemas.PowtarzalnaCreate, db:Session = Depends(get_db
 def get_recurring(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):
     powtarzalne = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(asc(models.PowtarzalnaDB.nastepny_termin)).all()
     return powtarzalne
+
+@app.put("/modify_recurring/{id_t_powtarzalnej}", response_model=schemas.PowtarzalnaResponse)
+def modify_recurring(id_t_powtarzalnej:int, data:schemas.PowtarzalnaUpdate, current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):
+    recurring = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.id_t_powtarzalnej==id_t_powtarzalnej, models.PowtarzalnaDB.id_uzytkownika==current_user.id_uzytkownika).first()
+
+    if not recurring:
+        raise HTTPException(status_code=404, detail="Nie znaleziono transakcji")
+    
+    update_data = data.model_dump(exclude_unset=True)
+    for key, val in update_data.items():
+        setattr(recurring, key, val)
+
+    try:
+        db.commit()
+        db.refresh(recurring)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=f"Blad zapisu: {e}")
+
+    return recurring
 
 # endregion wydatki/wplaty
 
