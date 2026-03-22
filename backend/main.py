@@ -93,7 +93,7 @@ app.add_middleware(
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
-TOKEN_EXPIRE_MINS = os.getenv("TOKEN_EXPIRE_MINS")
+TOKEN_EXPIRE_MINS = int(os.getenv("TOKEN_EXPIRE_MINS"))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 

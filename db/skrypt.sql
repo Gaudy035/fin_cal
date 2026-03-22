@@ -1,7 +1,3 @@
-CREATE DATABASE fin_calc_db;
-
-\c fin_calc_db;
-
 CREATE TABLE t_uzytkownik(
 	id_uzytkownika SERIAL PRIMARY KEY,
 	imie VARCHAR(30) NOT NULL,
