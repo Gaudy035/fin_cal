@@ -151,9 +151,13 @@ export default function RecurringForm() {
                   className='border-2'
                   required
                 >
-                  <option value=''>---</option>
+                  <option value='' disabled>
+                    ---
+                  </option>
                   {kategorie.map((item) => (
-                    <option value={item.id_kategorii}>{item.nazwa}</option>
+                    <option key={item.id_kategorii} value={item.id_kategorii}>
+                      {item.nazwa}
+                    </option>
                   ))}
                 </select>
               ) : (

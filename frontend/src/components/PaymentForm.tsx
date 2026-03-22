@@ -140,7 +140,9 @@ export default function PaymentForm() {
               >
                 <option value=''>---</option>
                 {kategorie.map((item) => (
-                  <option value={item.id_kategorii}>{item.nazwa}</option>
+                  <option key={item.id_kategorii} value={item.id_kategorii}>
+                    {item.nazwa}
+                  </option>
                 ))}
               </select>
             </div>

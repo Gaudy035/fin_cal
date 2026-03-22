@@ -36,9 +36,12 @@ def process_recurring():
                 id_kategorii = rp.id_kategorii,
                 kwota = rp.kwota,
                 tytul = rp.tytul,
+                metoda = rp.metoda,
                 opis = rp.opis,
                 typ = rp.typ,
-                data = rp.nastepny_termin
+                data = rp.nastepny_termin,
+                konto = rp.konto,
+                wlasciciel_konta = rp.wlasciciel_konta
             )
             db.add(new_payment)
 
