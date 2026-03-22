@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type TPowtarzalna from '../Dashboard/TPowtarzalna';
 import RecurringBox from '../subcomponents/RecurringBox';
+import api from '../../api';
 
 export default function Upcoming() {
   const token = localStorage.getItem('token');
@@ -12,15 +13,9 @@ export default function Upcoming() {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/get_recurring', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data: TPowtarzalna[]) => setTransakcje(data))
+    api
+      .get('/get_recurring')
+      .then((response) => setTransakcje(response.data))
       .catch((error) => console.log('blad polaczenia z API', error));
   }, [token]);
 

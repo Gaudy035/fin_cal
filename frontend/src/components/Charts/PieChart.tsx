@@ -7,6 +7,7 @@ import {
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
+import api from '../../api';
 
 interface Stat {
   kategoria: string;
@@ -25,18 +26,11 @@ export default function PieChart() {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/get_stats', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data: Stat[]) => setStats(data))
+    api
+      .get('/get_stats')
+      .then((response) => setStats(response.data))
       .catch((error) => console.log('Blad polaczenia z API', error));
   }, [token]);
-  // console.log(stats);
 
   const options = {
     plugins: {

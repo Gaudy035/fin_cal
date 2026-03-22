@@ -6,12 +6,6 @@ import os
 
 load_dotenv()
 
-# DB_USER = 'fin_calc_api'
-# DB_PASS = 'fin_calc_pass'
-# DB_HOST = 'localhost'
-# DB_PORT = '5432'
-# DB_NAME = 'fin_calc_db'
-
 DB_USER = os.getenv("DB_USER")
 DB_PASS = os.getenv("DB_PASS")
 DB_HOST = os.getenv("DB_HOST", "localhost")

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import InputTemp from './subcomponents/InputTemp';
 import ButtonTemp from './subcomponents/ButtonTemp';
 import { useState, useEffect } from 'react';
+import api from '../api';
 
 interface Kategoria {
   id_kategorii: number;
@@ -14,12 +15,12 @@ export default function PaymentForm() {
   const [kategorie, setKategorie] = useState<Kategoria[]>([]);
   const [isRecurring, setRecurring] = useState<Boolean>(false);
 
-  const token = localStorage.getItem('token');
-
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/kategorie')
-      .then((response) => response.json())
-      .then((data: Kategoria[]) => setKategorie(data))
+    api
+      .get('/kategorie')
+      .then((response) => {
+        setKategorie(response.data);
+      })
       .catch((error) => console.log('Blad przy pobieraniu kategorii: ', error));
   }, []);
 
@@ -32,9 +33,9 @@ export default function PaymentForm() {
     let payload = { ...formValues };
     delete payload.czy_powt;
 
-    let endpoint = 'http://127.0.0.1:8000/add_payment';
+    let endpoint = '/add_payment';
     if (isRecurring) {
-      endpoint = 'http://127.0.0.1:8000/add_recurring';
+      endpoint = '/add_recurring';
       payload.nastepny_termin = formValues.data;
       delete payload.data;
     } else {
@@ -42,20 +43,8 @@ export default function PaymentForm() {
     }
 
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        navigate('/');
-      } else {
-        console.log(response);
-      }
+      await api.post(`${endpoint}`, payload);
+      navigate('/');
     } catch (error) {
       console.log('Blad polaczenia z API: ', error);
     }

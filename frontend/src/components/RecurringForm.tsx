@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router';
 import InputTemp from './subcomponents/InputTemp';
 import ButtonTemp from './subcomponents/ButtonTemp';
 import { useState, useEffect, type SyntheticEvent } from 'react';
+import api from '../api';
 
 interface Kategoria {
   id_kategorii: number;
@@ -13,12 +14,11 @@ export default function RecurringForm() {
   const location = useLocation();
   const editData = location.state;
   const [kategorie, setKategorie] = useState<Kategoria[]>([]);
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/kategorie')
-      .then((response) => response.json())
-      .then((data: Kategoria[]) => setKategorie(data))
+    api
+      .get('/kategorie')
+      .then((response) => setKategorie(response.data))
       .catch((error) => console.log('Blad przy pobieraniu kategorii: ', error));
   }, []);
 
@@ -32,23 +32,8 @@ export default function RecurringForm() {
     };
 
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/modify_recurring/${editData.id_t_powtarzalnej}`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      if (response.ok) {
-        navigate('/kalendarz');
-      } else {
-        console.log(response);
-      }
+      await api.put(`/modify_recurring/${editData.id_t_powtarzalnej}`, payload);
+      navigate('/kalendarz');
     } catch (error) {
       console.log('Blad polaczenia z API', error);
     }

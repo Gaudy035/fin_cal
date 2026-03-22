@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useState, useEffect } from 'react';
+import api from '../../api';
 
 ChartJS.register(
   CategoryScale,
@@ -39,18 +40,11 @@ export default function BarChart() {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/get_summary', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data: Summary[]) => setSummary(data))
+    api
+      .get('/get_summary')
+      .then((response) => setSummary(response.data))
       .catch((error) => console.log('Blad polaczenia z API', error));
   }, [token]);
-  //   console.log(summary);
 
   const options = {
     plugins: {

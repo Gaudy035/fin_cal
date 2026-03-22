@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PaymentBox from '../subcomponents/PaymentBox';
 import type Transakcja from '../Dashboard/Transakcja';
+import api from '../../api';
 
 export default function Past() {
   const token = localStorage.getItem('token');
@@ -12,15 +13,9 @@ export default function Past() {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/transakcje', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data: Transakcja[]) => setTransakcje(data))
+    api
+      .get('/transakcje')
+      .then((response) => setTransakcje(response.data))
       .catch((error) => console.log('Blad polaczenia z API', error));
   }, [token]);
 

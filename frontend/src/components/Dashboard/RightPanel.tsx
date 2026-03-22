@@ -1,6 +1,7 @@
 import PaymentBox from '../subcomponents/PaymentBox';
 import { useState, useEffect } from 'react';
 import type Transakcja from './Transakcja';
+import api from '../../api';
 
 export default function RightPanel() {
   const token = localStorage.getItem('token');
@@ -12,15 +13,9 @@ export default function RightPanel() {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/wydatki', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data: Transakcja[]) => setWydatki(data))
+    api
+      .get('/wydatki')
+      .then((response) => setWydatki(response.data))
       .catch((error) => console.log('Blad przy pobieraniu wydatkow', error));
   }, [token]);
 

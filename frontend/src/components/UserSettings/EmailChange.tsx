@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router';
 import { useState, type SyntheticEvent } from 'react';
 import InputTemp from '../subcomponents/InputTemp';
 import ButtonTemp from '../subcomponents/ButtonTemp';
+import api from '../../api';
 
 export default function EmailChange() {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
   const [success, setSucces] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -13,32 +13,18 @@ export default function EmailChange() {
     event.preventDefault();
     setError(null);
     const formData = new FormData(event.currentTarget);
-    const formValues = Object.fromEntries(formData.entries());
-    const payload = { ...formValues };
+    const payload = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/update_email', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        (setSucces(true),
-          setTimeout(() => {
-            navigate('/');
-            localStorage.removeItem('token');
-          }, 1500));
-      } else {
-        setError(data.detail);
-      }
-    } catch (err) {
-      console.log('Blad polaczenia z API', err);
+      await api.put('/update_email', payload);
+      setSucces(true);
+      setTimeout(() => {
+        localStorage.removeItem('token');
+        navigate('/');
+      }, 1500);
+    } catch (err: any) {
+      setError(err.response?.data?.detail);
+      console.log('Blad polaczenia z API');
     }
   };
 

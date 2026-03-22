@@ -2,6 +2,7 @@ import InputTemp from './subcomponents/InputTemp';
 import ButtonTemp from './subcomponents/ButtonTemp';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import api from '../api';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -22,22 +23,12 @@ export default function LoginForm() {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.access_token);
-        navigate('/');
-      } else {
-        setError(data.detail || 'Wystapil blad logowania');
-      }
-    } catch (err) {
-      setError('Blad polaczenia z API');
+      const response = await api.post('/login', payload);
+      localStorage.setItem('token', response.data.access_token);
+      navigate('/');
+    } catch (err: any) {
+      setError(err.response?.data?.detail);
+      console.log('Blad polaczenia z API', err);
     }
   };
 
@@ -60,11 +51,7 @@ export default function LoginForm() {
           inpId='haslo'
           inpName='haslo'
         />
-        <ButtonTemp
-          // btnClick={() => handleSubmit}
-          btnText='LOG-IN'
-          btnType='submit'
-        />
+        <ButtonTemp btnText='LOG-IN' btnType='submit' />
         <div className='flex justify-center items-center flex-col'>
           <h2 className='text-red-600'>{error ? error : ''}</h2>
           <h2>Nie masz konta?</h2>{' '}

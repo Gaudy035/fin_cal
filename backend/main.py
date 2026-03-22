@@ -14,6 +14,8 @@ from fastapi.security import OAuth2PasswordBearer
 from apscheduler.schedulers.background import BackgroundScheduler
 from dateutil.relativedelta import relativedelta
 import isodate
+from dotenv import load_dotenv
+import os
 
 # region scheduler
 
@@ -89,9 +91,9 @@ app.add_middleware(
 
 # region JWT
 
-SECRET_KEY = "JWT_SECRET_KEY"
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
-TOKEN_EXPIRE_MINS = 600
+TOKEN_EXPIRE_MINS = os.getenv("TOKEN_EXPIRE_MINS")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 

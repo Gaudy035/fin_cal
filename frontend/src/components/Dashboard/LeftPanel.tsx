@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PaymentBox from '../subcomponents/PaymentBox';
 import type Transakcja from './Transakcja';
+import api from '../../api';
 
 export default function LeftPanel() {
   const token = localStorage.getItem('token');
@@ -12,16 +13,10 @@ export default function LeftPanel() {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/wplywy', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data: Transakcja[]) => setWplywy(data))
-      .catch((error) => console.log('Blad przy pobieraniu wplywow: ', error));
+    api
+      .get('/wplywy')
+      .then((response) => setWplywy(response.data))
+      .catch((error) => console.log('Blad przy pobieraniu wplywow', error));
   }, [token]);
 
   return (

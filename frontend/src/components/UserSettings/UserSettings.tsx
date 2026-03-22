@@ -16,7 +16,6 @@ export default function UserSettings({
     change();
     localStorage.removeItem('token');
     navigate('/');
-    window.location.reload();
   };
 
   if (!visibility) {

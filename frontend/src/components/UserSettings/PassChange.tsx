@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router';
 import { useState, type SyntheticEvent } from 'react';
 import ButtonTemp from '../subcomponents/ButtonTemp';
 import InputTemp from '../subcomponents/InputTemp';
+import api from '../../api';
 
 export default function PassChange() {
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -14,29 +14,17 @@ export default function PassChange() {
     setError(null);
 
     const formData = new FormData(event.currentTarget);
-    const formValues = Object.fromEntries(formData.entries());
-    const payload = { ...formValues };
+    const payload = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/update_password', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => {
-          navigate('/');
-          localStorage.removeItem('token');
-        }, 1500);
-      } else setError(data.detail);
-    } catch (err) {
+      await api.put('/update_password', payload);
+      setSuccess(true);
+      setTimeout(() => {
+        localStorage.removeItem('token');
+        navigate('/');
+      }, 1500);
+    } catch (err: any) {
+      setError(err.response?.data?.detail);
       console.log('Blad polaczenia z API', err);
     }
   };

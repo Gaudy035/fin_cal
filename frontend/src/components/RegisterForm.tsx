@@ -2,6 +2,7 @@ import InputTemp from './subcomponents/InputTemp';
 import ButtonTemp from './subcomponents/ButtonTemp';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -18,22 +19,14 @@ export default function RegisterForm() {
     const payload = { ...formValues };
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => navigate('/login'), 2000);
-      } else {
-        setError(data.detail || 'Bład rejestracji');
-      }
-    } catch (error) {
-      setError('Blad polaczenia z API');
+      await api.post('/register', payload);
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
+    } catch (err: any) {
+      setError(err.response?.data?.detail);
+      console.log('Blad rejestracji', err);
     }
   };
 
