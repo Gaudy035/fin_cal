@@ -17,6 +17,8 @@ import isodate
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 # region scheduler
 
 def process_recurring():
