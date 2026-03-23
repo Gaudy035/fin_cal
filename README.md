@@ -43,13 +43,15 @@ Aplikacja webowa do monitorowania finansów. Umożliwia śledzenie nadchodzącyc
 | ------------ | ------------------ |
 | VITE_API_URL | Adres API backendu |
 
-Tu nalezy utworzyc dwa pliki zgodnie z example
+Tu nalezy utworzyc dwa pliki zgodnie z `.env.example`.
+
 **.env** dla serwera lokalnego i **.env.production** dla Dockera
 
 ## Uruchamianie przez Docker
 
-1. Utwórz i uzupelnij pliki `.env` zgodnie z example i opisem powyżej
-2. Przy pierwszym uruchomieniu:
+Utwórz i uzupelnij pliki `.env` zgodnie z example i opisem powyżej
+
+Przy pierwszym uruchomieniu:
 
 ```bash
 docker-compose up --build
