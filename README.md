@@ -1,6 +1,6 @@
 # Monitor Finansowy
 
-Aplikacja webowa do monitorowania finansów. Umożliwia śledzenie nadchodzących transakcji, historii przeszłych i dodawanie nowych, w tym cyklicznych powtarzających się automatycznie. Ma mozliwosc wyswietlania wyswietlania wykresów bilansu wpływów i wydatków na obecny miesiąc, a także wydatków podzielonych na kategorie.
+Aplikacja webowa do monitorowania finansów. Umożliwia śledzenie nadchodzących transakcji, historii przeszłych i dodawanie nowych, w tym cyklicznych powtarzających się automatycznie. Ma mozliwosc wyswietlania wykresów bilansu wpływów i wydatków na obecny miesiąc, a także wydatków podzielonych na kategorie.
 
 ## Technologie
 
@@ -27,21 +27,21 @@ Aplikacja webowa do monitorowania finansów. Umożliwia śledzenie nadchodzącyc
 
 ### `backend/.env`
 
-| Zmienna           | Opis                                          |
-| ----------------- | --------------------------------------------- |
-| DB_USER           | Użytkownik bazy danych                        |
-| DB_PASS           | Hasło użytkownika bazy danych                 |
-| DB_HOST           | Serwer bazy danych dla developmentu lokalnego |
-| DB_PORT           | Port serwera bazy danych                      |
-| DB_NAME           | Nazwa bazy danych                             |
-| SECRET_KEY        | Klucz uzywany dla tokenow JWT                 |
-| TOKEN_EXPIRE_MINS | Czas zycia tokena JWT w minutach              |
+| Zmienna             | Opis                                          |
+| ------------------- | --------------------------------------------- |
+| `DB_USER`           | Użytkownik bazy danych                        |
+| `DB_PASS`           | Hasło użytkownika bazy danych                 |
+| `DB_HOST`           | Serwer bazy danych dla developmentu lokalnego |
+| `DB_PORT`           | Port serwera bazy danych                      |
+| `DB_NAME`           | Nazwa bazy danych                             |
+| `SECRET_KEY`        | Klucz uzywany dla tokenow JWT                 |
+| `TOKEN_EXPIRE_MINS` | Czas zycia tokena JWT w minutach              |
 
-### `frontend/.env`
+### `frontend/.env`/`frontend/.env.production`
 
-| Zmienna      | Opis               |
-| ------------ | ------------------ |
-| VITE_API_URL | Adres API backendu |
+| Zmienna        | Opis               |
+| -------------- | ------------------ |
+| `VITE_API_URL` | Adres API backendu |
 
 Tu nalezy utworzyc dwa pliki zgodnie z `.env.example`.
 
@@ -110,6 +110,6 @@ Uruchom serwer PostgreSQL i wykonaj skrypt `db/skrypt.sql`
 fin_cal/
 ├── backend         # FastAPI
 ├── frontend        # React
-├── db              # SkryptySQL
+├── db              # Skrypty SQL
 └── docker-compose.yaml
 ```
