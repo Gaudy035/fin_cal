@@ -12,7 +12,9 @@ services:
   backend:
     build: ./backend
     env_file:
-      - .env
+      - ./backend/.env
+    environment:
+      DB_HOST: db
     ports:
       - '8000:8000'
     depends_on:

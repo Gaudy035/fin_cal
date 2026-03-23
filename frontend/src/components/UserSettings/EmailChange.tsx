@@ -20,7 +20,7 @@ export default function EmailChange() {
       setSucces(true);
       setTimeout(() => {
         localStorage.removeItem('token');
-        navigate('/');
+        navigate('/login');
       }, 1500);
     } catch (err: any) {
       setError(err.response?.data?.detail);
