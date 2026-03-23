@@ -63,9 +63,11 @@ docker-compose up
 
 ## Uruchamianie lokalnie
 
-1. Utwórz i uzupelnij pliki `.env` zgodnie z example i opisem powyżej
-2. **FRONTEND**
-   Przy pierwszym uruchomieniu:
+Utwórz i uzupelnij pliki `.env` zgodnie z example i opisem powyżej
+
+### FRONTEND
+
+Przy pierwszym uruchomieniu:
 
 ```bash
 npm install
@@ -78,8 +80,9 @@ Przy nastepnych uruchomieniach:
 npm run dev
 ```
 
-3. **BACKEND**
-   Przy pierwszym uruchomieniu:
+### BACKEND
+
+Przy pierwszym uruchomieniu:
 
 ```bash
 python -m venv .venv
@@ -95,13 +98,16 @@ source .venv/bin/activate
 uvicorn main:app --reload
 ```
 
-4. **BAZA DANYCH**
-   Uruchom serwer PostgreSQL i wykonaj skrypt `db/skrypt.sql`
+### BAZA DANYCH
+
+Uruchom serwer PostgreSQL i wykonaj skrypt `db/skrypt.sql`
 
 ## Struktura projektu
 
+```bash
 fin_cal/
-├── backend # FastAPI
-├── frontend # React
-├── db # SkryptySQL
+├── backend         # FastAPI
+├── frontend        # React
+├── db              # SkryptySQL
 └── docker-compose.yaml
+```
