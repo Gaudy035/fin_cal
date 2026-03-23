@@ -37,7 +37,7 @@ Aplikacja webowa do monitorowania finansów. Umożliwia śledzenie nadchodzącyc
 | `SECRET_KEY`        | Klucz uzywany dla tokenow JWT                 |
 | `TOKEN_EXPIRE_MINS` | Czas zycia tokena JWT w minutach              |
 
-### `frontend/.env`/`frontend/.env.production`
+### `frontend/.env` (serwer lokalny) | `frontend/.env.production` (Docker)
 
 | Zmienna        | Opis               |
 | -------------- | ------------------ |
