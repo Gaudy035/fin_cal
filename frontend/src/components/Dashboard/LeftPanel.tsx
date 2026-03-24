@@ -32,6 +32,9 @@ export default function LeftPanel() {
               typ={item.typ}
               tytul={item.tytul}
               data={item.data}
+              metoda={item.metoda}
+              wlasciciel_konta={item.wlasciciel_konta}
+              konto={item.konto}
             />
           ))
         : 'Zaloguj sie by wyswietlic wplywy'}

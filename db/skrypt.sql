@@ -51,4 +51,5 @@ CREATE TABLE t_t_powtarzalne(
 INSERT INTO t_kategorie (nazwa) VALUES ('rozrywka');
 INSERT INTO t_kategorie (nazwa) VALUES ('transport');
 INSERT INTO t_kategorie (nazwa) VALUES ('jedzenie');
+INSERT INTO t_kategorie (nazwa) VALUES ('oplaty');
 INSERT INTO t_kategorie (nazwa) VALUES ('pozostale');

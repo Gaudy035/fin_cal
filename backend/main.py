@@ -135,12 +135,12 @@ def get_transakcje(current_user:models.UzytkownikDB = Depends(get_current_user),
 
 @app.get("/wplywy", response_model=List[schemas.TransakcjaResponse])
 def get_wplywy(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):
-    wplywy = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wplyw', models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika).all()
+    wplywy = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wplyw', models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(desc(models.TransakcjaDB.data)).all()
     return wplywy
 
 @app.get("/wydatki", response_model=List[schemas.TransakcjaResponse])
 def get_wydatki(current_user:models.UzytkownikDB = Depends(get_current_user), db:Session = Depends(get_db)):
-    wydatki = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wydatek', models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika).all()
+    wydatki = db.query(models.TransakcjaDB).filter(models.TransakcjaDB.typ == 'wydatek', models.TransakcjaDB.id_uzytkownika==current_user.id_uzytkownika).order_by(desc(models.TransakcjaDB.data)).all()
     return wydatki
 
 @app.post("/add_payment", response_model=schemas.TransakcjaResponse)
