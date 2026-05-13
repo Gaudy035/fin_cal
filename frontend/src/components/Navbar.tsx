@@ -3,6 +3,7 @@ import NavbarLink from './subcomponents/NavbarLink';
 import { useNavigate } from 'react-router';
 import UserSettings from './UserSettings/UserSettings';
 import { useState } from 'react';
+import Logo from './subcomponents/Logo';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function Navbar() {
             onClick={() => navigate('/')}
             className='font-semibold cursor-pointer'
           >
-            LOGO
+            <Logo />
           </h1>
         </div>
         {/* Linki */}
