@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Boolean, Numeric, Date, Text, Fo
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-class PowtarzalnaDB(Base):
+class Recurring(Base):
     __tablename__ = "t_recurring"
 
     recurring_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -27,5 +27,5 @@ class PowtarzalnaDB(Base):
         CheckConstraint(transaction_method.in_(['gotowka', 'przelew']), name='recurring_method_constraint')
     )
     
-    user_fk = relationship("UserModel", back_populates='recurring_fk')
-    category_fk = relationship("CategoryModel", back_populates="recurring_fk")
+    user_fk = relationship("User", back_populates='recurring_fk')
+    category_fk = relationship("Category", back_populates="recurring_fk")

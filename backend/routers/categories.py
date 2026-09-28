@@ -8,5 +8,5 @@ import services.categories_service as categories_service
 router = APIRouter(tags=['categories'])
 
 @router.get("/kategorie", response_model=List[schemas.Kategoria])
-def get_kategoria(db:Session = Depends(get_db)):
-    return categories_service.get_kategoria(db)
+def get_categories(db:Session = Depends(get_db)):
+    return categories_service.get_categories(db)

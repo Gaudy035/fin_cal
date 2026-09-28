@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Numeric, Date, Text, ForeignKey,
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-class TransactionModel(Base):
+class Transaction(Base):
     __tablename__ = "t_transaction"
 
     transaction_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -22,8 +22,8 @@ class TransactionModel(Base):
     
     __table_args__ = (
         CheckConstraint(transaction_type.in_(['wplyw', 'wydatek']), name='transaction_type_constraint'),
-        CheckConstraint(transaction_method.in_(['gotowka', 'przelew']), name='transaction_model_constraint')
+        CheckConstraint(transaction_method.in_(['gotowka', 'przelew']), name='transaction_method_constraint')
     )
     
-    user_fk = relationship("UserModel", back_populates='transaction_fk')
-    category_fk = relationship("CategoryModel", back_populates="transaction_fk")
+    user_fk = relationship("User", back_populates='transaction_fk')
+    category_fk = relationship("Category", back_populates="transaction_fk")
