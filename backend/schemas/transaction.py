@@ -2,20 +2,20 @@ from pydantic import BaseModel, ConfigDict
 from datetime import date
 
 class TransactionBase(BaseModel):
-    user_id:int | None = None
-    category_id:int | None = None
-    transaction_type:str
-    title:str
-    description:str | None = None
-    amount:float
-    transaction_method:str
-    account:str | None = None
-    account_owner:str | None = None
+    user_id: int | None = None
+    category_id: int | None = None
+    transaction_type: str
+    title: str
+    description: str | None = None
+    amount: float
+    transaction_method: str
+    account: str | None = None
+    account_owner: str | None = None
 
 class TransactionCreate(TransactionBase):
-    transaction_date:date | None = None
+    transaction_date: date | None = None
 
 class TransactionResponse(TransactionBase):
-    transaction_id:int
-    transaction_date:date
-    model_config = ConfigDict(from_attributes=True)
+    transaction_id: int
+    transaction_date: date
+    model_config = ConfigDict(from_attributes = True)

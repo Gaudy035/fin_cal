@@ -6,10 +6,10 @@ from typing import List
 import services.categories as service
 
 router = APIRouter(
-        tags=["categories"],
-        prefix="/categories"
-    )
+    tags = ["categories"],
+    prefix = "/categories"
+)
 
-@router.get("", response_model=List[schemas.CategoryResponse])
-def get_categories(db:Session = Depends(get_db)):
+@router.get("", response_model = List[schemas.CategoryResponse])
+def get_categories(db: Session = Depends(get_db)):
     return service.get_categories(db)

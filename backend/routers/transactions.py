@@ -8,9 +8,9 @@ from typing import List
 import services.transactions as service
 
 router = APIRouter(
-        tags=["transactions"],
-        prefix="/transactions"
-    )
+    tags=["transactions"],
+    prefix="/transactions"
+)
 
 
 @router.get("", response_model = List[schemas.TransactionResponse])

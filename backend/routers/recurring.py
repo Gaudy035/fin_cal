@@ -8,8 +8,8 @@ from models.user import User
 import services.recurring as service
 
 router = APIRouter(
-    tags=["recurring"],
-    prefix="/recurring"
+    tags = ["recurring"],
+    prefix = "/recurring"
 )
 
 @router.post("", response_model = schemas.RecurringResponse)
