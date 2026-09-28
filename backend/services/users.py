@@ -1,10 +1,9 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from models.user import User
 import schemas.user as schemas
 from security.passwords import hash_password, verify_password
 from security.auth import create_access_token
-
 
 def register_user(user: User, db: Session):
     db_user = (
@@ -13,7 +12,7 @@ def register_user(user: User, db: Session):
         .first()
     )
     if db_user:
-        raise HTTPException(status_code=409, detail=f'User with email: {user.email} already exists')
+        raise HTTPException(status_code = status.HTTP_409_CONFLICT, detail = f'User with email: {user.email} already exists')
     
     hashed_pwd = hash_password(user.password)
 
@@ -37,7 +36,7 @@ def login_user(creds: schemas.UserCreate, db: Session):
     )
 
     if not user or not verify_password(creds.haslo, user.haslo):
-        raise HTTPException(status_code = 401, detail = "Incorrect email or password")
+        raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Incorrect email or password")
     
     access_token = create_access_token(data = {"sub": str(user.user_id)})
     
@@ -49,7 +48,7 @@ def login_user(creds: schemas.UserCreate, db: Session):
 
 def update_email(data: schemas.EmailChange, current_user: User, db: Session):
     if not verify_password(data.current_password, current_user.password):
-        raise HTTPException(status_code = 401, detail = "Incorrect password")
+        raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Incorrect password")
     
     email_exists = (
         db.query(User)
@@ -57,7 +56,7 @@ def update_email(data: schemas.EmailChange, current_user: User, db: Session):
         .first()
     )
     if email_exists:
-        raise HTTPException(status_code=409, detail="Email is already taken")
+        raise HTTPException(status_code = status.HTTP_409_CONFLICT, detail = "Email is already taken")
     
     current_user.email=data.new_email
     db.commit()
@@ -65,7 +64,7 @@ def update_email(data: schemas.EmailChange, current_user: User, db: Session):
 
 def update_password(data: schemas.PasswordChange, current_user: User, db: Session):
     if not verify_password(data.current_password, current_user.password):
-        raise HTTPException(status_code=401, detail="Incorrect password")
+        raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Incorrect password")
     
     current_user.password = hash_password(data.new_password)
     db.commit()

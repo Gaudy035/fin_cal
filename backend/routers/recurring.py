@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from security.auth import get_current_user
 from database import get_db
@@ -12,7 +12,7 @@ router = APIRouter(
     prefix = "/recurring"
 )
 
-@router.post("", response_model = schemas.RecurringResponse)
+@router.post("", response_model = schemas.RecurringResponse, status_code = status.HTTP_201_CREATED)
 def add_recurring(
     payment: schemas.RecurringCreate, 
     db: Session = Depends(get_db), 
@@ -24,7 +24,7 @@ def add_recurring(
 def get_recurring(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return service.get_recurring(current_user, db)
 
-@router.put("/{id_t_powtarzalnej}", response_model = schemas.RecurringResponse)
+@router.put("/{recurring_id}", response_model = schemas.RecurringResponse)
 def modify_recurring(
     recurring_id: int, 
     data: schemas.RecurringUpdate, 

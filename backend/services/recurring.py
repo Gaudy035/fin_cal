@@ -1,10 +1,9 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import asc
 from models.recurring import Recurring
 from models.user import User
 import schemas.recurring as schemas
-
 
 def add_recurring(data: schemas.RecurringCreate, db: Session, current_user:User):
     payment_data = data.model_dump()
@@ -39,9 +38,9 @@ def modify_recurring(
     )
 
     if not recurring:
-        raise HTTPException(status_code=404, detail="Transaction not found")
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Transaction not found")
     
-    update_data = data.model_dump(exclude={'user_id'})
+    update_data = data.model_dump(exclude = {'user_id'})
     for key, val in update_data.items():
         setattr(recurring, key, val)
 
@@ -50,6 +49,6 @@ def modify_recurring(
         db.refresh(recurring)
     except Exception:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Database error")
+        raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Database error")
 
     return recurring

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from models.user import User
 import schemas.transaction as schemas
 from sqlalchemy.orm import Session
@@ -12,6 +12,13 @@ router = APIRouter(
     prefix="/transactions"
 )
 
+@router.post("", response_model = schemas.TransactionResponse, status_code = status.HTTP_201_CREATED)
+def add_payment(
+        payment: schemas.TransactionCreate, 
+        db: Session = Depends(get_db), 
+        current_user:User = Depends(get_current_user)
+    ):
+    return service.add_payment(payment, db, current_user)
 
 @router.get("", response_model = List[schemas.TransactionResponse])
 def get_transactions(current_user: User = Depends(get_current_user), db: Session=Depends(get_db)):
@@ -24,11 +31,3 @@ def get_income(current_user: User = Depends(get_current_user), db: Session = Dep
 @router.get("/expenses", response_model = List[schemas.TransactionResponse])
 def get_expenses(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return service.get_expenses(current_user, db)
-
-@router.post("", response_model = schemas.TransactionResponse)
-def add_payment(
-        payment: schemas.TransactionCreate, 
-        db: Session = Depends(get_db), 
-        current_user:User = Depends(get_current_user)
-    ):
-    return service.add_payment(payment, db, current_user)

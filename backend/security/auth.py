@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from models.user import User
 from database import get_db
@@ -28,14 +28,14 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
         if user_id is None:
-            raise HTTPException(status_code=401, detail="Nieautoryzowany dostęp")
+            raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail= "Unauthotized")
     except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail='Token jest niewazny lub wygasl')
+        raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail= "Token invalid or expired")
     
     user = (
         db.query(User)
         .filter(User.user_id == int(user_id)).first()
     )
     if user is None:
-        raise HTTPException(status_code=401, detail="Uzytkownik nie istnieje")
+        raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "User does not exist")
     return user
