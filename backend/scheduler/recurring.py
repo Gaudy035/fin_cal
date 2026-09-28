@@ -1,4 +1,5 @@
-import models
+from models.recurring import Recurring
+from models.transaction import Transaction
 from database import SessionLocal
 from apscheduler.schedulers.background import BackgroundScheduler
 import isodate
@@ -9,36 +10,41 @@ def process_recurring():
     db = SessionLocal()
     try:
         now = datetime.now().date()
-        payments = db.query(models.PowtarzalnaDB).filter(models.PowtarzalnaDB.nastepny_termin<=now, models.PowtarzalnaDB.czy_aktywna==True).all()
+        payments = (
+            db.query(Recurring)
+            .filter(Recurring.next_date <= now, 
+                Recurring.is_active == True)
+            .all()
+        )
 
         for rp in payments:
             try:
-                interval = isodate.parse_duration(rp.co_ile)
+                interval = isodate.parse_duration(rp.interval)
             except Exception as e:
-                print(f"Blad Formatu dla platnosci ID:{rp.id_t_powtarzalnej} - {rp.tytul}:{rp.co_ile}")
+                print(f"Error for payment with ID:{rp.recurring_id} - {rp.title}:{rp.interval}")
                 continue
 
-            new_payment = models.TransakcjaDB(
-                id_uzytkownika = rp.id_uzytkownika,
-                id_kategorii = rp.id_kategorii,
-                kwota = rp.kwota,
-                tytul = rp.tytul,
-                metoda = rp.metoda,
-                opis = rp.opis,
-                typ = rp.typ,
-                data = rp.nastepny_termin,
-                konto = rp.konto,
-                wlasciciel_konta = rp.wlasciciel_konta
+            new_payment = Transaction(
+                user_id = rp.user_id,
+                category_id = rp.category_id,
+                amount = rp.amount,
+                title = rp.title,
+                transaction_method = rp.transaction_method,
+                description = rp.description,
+                transaction_type = rp.transaction_type,
+                transaction_date = rp.next_date,
+                account = rp.account,
+                account_owner = rp.account_owner
             )
             db.add(new_payment)
 
-            rp.nastepny_termin+=interval
+            rp.next_date += interval
             
-            print(f"Przetworzono {rp.tytul} dla {rp.id_uzytkownika}")
+            print(f"Processed {rp.title} for user {rp.user_id}")
         db.commit()
 
     except Exception as e:
-        print(f"Blad podczas przetwarzania: {e}")
+        print(f"Process error: {e}")
         db.rollback()
     finally:
         db.close()
