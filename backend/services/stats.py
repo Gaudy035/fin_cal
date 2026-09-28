@@ -6,7 +6,7 @@ from sqlalchemy import func
 
 def get_stats(current_user: User, db: Session):
     stats = (
-        db.query(Category.category_name.label("nazwa_kat"), 
+        db.query(Category.category_name, 
             func.sum(Transaction.amount).label('total'))
             .join(Transaction, Category.category_id == Transaction.category_id)
             .filter(Transaction.user_id == current_user.user_id, 
@@ -14,14 +14,14 @@ def get_stats(current_user: User, db: Session):
             .group_by(Category.category_name)
             .all()
     )
-    return [{"category": stat.nazwa_kat, "kwota": stat.total} for stat in stats]
+    return [{"category": stat.category_name, "kwota": stat.total} for stat in stats]
 
 def get_summary(current_user: User, db: Session):
     summary = (
         db.query(Transaction.transaction_type, 
-            func.sum(Transaction.amount).label('kwota'))
-            .filter(User.user_id == current_user.user_id).
+            func.sum(Transaction.amount).label('amount'))
+            .filter(Transaction.user_id == current_user.user_id).
             group_by(Transaction.transaction_type)
             .all()
     )
-    return [{"type": s.typ, "kwota": s.kwota} for s in summary]
+    return [{"type": s.transaction_type, "kwota": s.amount} for s in summary]
