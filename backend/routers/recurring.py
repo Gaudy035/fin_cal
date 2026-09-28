@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from auth import get_current_user
+from security.auth import get_current_user
 from database import get_db
 from typing import List
 import schemas.recurring as schemas

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from models.user import User
 import schemas.transaction as schemas
 from sqlalchemy.orm import Session
-from auth import get_current_user
+from security.auth import get_current_user
 from database import get_db
 from typing import List
 import services.transactions as service
