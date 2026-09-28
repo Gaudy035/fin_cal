@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-import schemas
+import schemas.category as schemas
 from database import get_db
 from typing import List
-import services.categories_service as categories_service
+import services.categories as service
 
 router = APIRouter(tags=['categories'])
 
-@router.get("/kategorie", response_model=List[schemas.Kategoria])
+@router.get("/categories", response_model=List[schemas.CategoryResponse])
 def get_categories(db:Session = Depends(get_db)):
-    return categories_service.get_categories(db)
+    return service.get_categories(db)

@@ -1,6 +1,6 @@
-import models
+import models.category as model;
 from sqlalchemy.orm import Session
 
 def get_categories(db:Session):
-    categories = db.query(models.KategoriaDB).all()
+    categories = db.query(model.Category).all()
     return categories
