@@ -5,8 +5,11 @@ from database import get_db
 from typing import List
 import services.categories as service
 
-router = APIRouter(tags=['categories'])
+router = APIRouter(
+        tags=["categories"],
+        prefix="/categories"
+    )
 
-@router.get("/categories", response_model=List[schemas.CategoryResponse])
+@router.get("", response_model=List[schemas.CategoryResponse])
 def get_categories(db:Session = Depends(get_db)):
     return service.get_categories(db)
