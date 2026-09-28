@@ -14,7 +14,7 @@ class Transaction(Base):
     transaction_type = Column(String(10), nullable=False)
     title = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
-    ammount = Column(Numeric(12, 2), nullable=False)
+    amount = Column(Numeric(12, 2), nullable=False)
     transaction_method = Column(String(10), nullable=False)
     account = Column(String(50), nullable=True)
     account_owner = Column(String(100), nullable=True)
