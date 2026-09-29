@@ -3,6 +3,7 @@ from models.user import User
 from models.category import Category
 from models.transaction import Transaction
 from sqlalchemy import func
+from enums import TransactionType
 
 def get_stats(current_user: User, db: Session):
     stats = (
@@ -10,11 +11,11 @@ def get_stats(current_user: User, db: Session):
             func.sum(Transaction.amount).label('total'))
             .join(Transaction, Category.category_id == Transaction.category_id)
             .filter(Transaction.user_id == current_user.user_id, 
-                Transaction.transaction_type=='wydatek')
+                Transaction.transaction_type==TransactionType.EXPENSE)
             .group_by(Category.category_name)
             .all()
     )
-    return [{"category": stat.category_name, "kwota": stat.total} for stat in stats]
+    return [{"category": stat.category_name, "amount": stat.total} for stat in stats]
 
 def get_summary(current_user: User, db: Session):
     summary = (
@@ -24,4 +25,4 @@ def get_summary(current_user: User, db: Session):
             group_by(Transaction.transaction_type)
             .all()
     )
-    return [{"type": s.transaction_type, "kwota": s.amount} for s in summary]
+    return [{"type": s.transaction_type, "amount": s.amount} for s in summary]

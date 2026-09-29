@@ -1,0 +1,9 @@
+from enum import StrEnum
+
+class TransactionType(StrEnum):
+    INCOME = "income"
+    EXPENSE = "expense"
+
+class TransactionMethod(StrEnum):
+    CASH = "cash"
+    TRANSFER = "transfer"

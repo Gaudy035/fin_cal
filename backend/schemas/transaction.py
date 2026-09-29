@@ -1,14 +1,15 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import date
+from enums import TransactionType, TransactionMethod
 
 class TransactionBase(BaseModel):
     user_id: int | None = None
     category_id: int | None = None
-    transaction_type: str
+    transaction_type: TransactionType
     title: str
     description: str | None = None
     amount: float
-    transaction_method: str
+    transaction_method: TransactionMethod
     account: str | None = None
     account_owner: str | None = None
 
