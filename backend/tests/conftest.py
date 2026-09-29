@@ -6,7 +6,7 @@ from database import Base
 from models import User, Category, Transaction, Recurring
 from security import passwords
 from enums import TransactionMethod, TransactionType
-from datetime import date
+from datetime import date, timedelta
 
 @pytest.fixture
 def engine():
@@ -68,7 +68,7 @@ def seed_transaction(db_session: Session):
         amount: float,
         transaction_type: TransactionType,
         transaction_method: TransactionMethod,
-        transaction_date: date
+        transaction_date: date = date.today()
     ):
         transaction = Transaction(
             user_id = user_id,
@@ -85,4 +85,33 @@ def seed_transaction(db_session: Session):
         db_session.refresh(transaction)
 
         return transaction
+    return _seed
+
+@pytest.fixture
+def seed_recurring(db_session: Session):
+    def _seed(
+        user_id: int,
+        category_id: int,
+        amount: float,
+        transaction_type: TransactionType,
+        transaction_method: TransactionMethod,
+        next_date: date = date.today() + timedelta(weeks=1),
+        interval: str = "P30D"
+    ):
+        recurring = Recurring(
+            user_id = user_id,
+            category_id = category_id,
+            title = "Seeded title",
+            transaction_type = transaction_type,
+            transaction_method = transaction_method,
+            amount = amount,
+            next_date = next_date,
+            interval = interval
+        )
+
+        db_session.add(recurring)
+        db_session.commit()
+        db_session.refresh(recurring)
+
+        return recurring
     return _seed
