@@ -10,7 +10,7 @@ class Recurring(Base):
     recurring_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     
     user_id = Column(Integer, ForeignKey("t_user.user_id", ondelete="CASCADE"), nullable=False)
-    category_id = Column(Integer, ForeignKey("t_categry.category_id", ondelete="CASCADE"))
+    category_id = Column(Integer, ForeignKey("t_category.category_id", ondelete="CASCADE"))
     
     transaction_type = Column(Enum(TransactionType, name="recurring_type_enum"), nullable=False)
     title = Column(String(100), nullable=False)
