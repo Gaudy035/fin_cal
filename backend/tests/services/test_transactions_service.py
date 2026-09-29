@@ -40,7 +40,6 @@ def test_get_transactions_returns_all_transactions_of_current_user(db_session, s
         amount = 100,
         transaction_type = TransactionType.INCOME,
         transaction_method = TransactionMethod.CASH,
-        
     )
     seed_transaction(
         user_id = user.user_id,
@@ -48,7 +47,6 @@ def test_get_transactions_returns_all_transactions_of_current_user(db_session, s
         amount = 100,
         transaction_type = TransactionType.EXPENSE,
         transaction_method = TransactionMethod.TRANSFER,
-        
     )
 
     user2: User = seed_user(
@@ -64,7 +62,6 @@ def test_get_transactions_returns_all_transactions_of_current_user(db_session, s
         amount = 100,
         transaction_type = TransactionType.EXPENSE,
         transaction_method = TransactionMethod.TRANSFER,
-        
     )
 
     result = service.get_transactions(user, db_session)
@@ -84,7 +81,6 @@ def test_get_income_returns_all_transactions_of_current_user_with_income_type(db
         amount = 100,
         transaction_type = TransactionType.INCOME,
         transaction_method = TransactionMethod.CASH,
-        
     )
     seed_transaction(
         user_id = user.user_id,
@@ -92,7 +88,6 @@ def test_get_income_returns_all_transactions_of_current_user_with_income_type(db
         amount = 100,
         transaction_type = TransactionType.EXPENSE,
         transaction_method = TransactionMethod.TRANSFER,
-        
     )
 
     user2: User = seed_user(
@@ -108,7 +103,6 @@ def test_get_income_returns_all_transactions_of_current_user_with_income_type(db
         amount = 100,
         transaction_type = TransactionType.INCOME,
         transaction_method = TransactionMethod.TRANSFER,
-        
     )
 
     result = service.get_income(user, db_session)
@@ -128,7 +122,6 @@ def test_get_expenses_returns_all_transactions_of_current_user_with_expense_type
         amount = 100,
         transaction_type = TransactionType.INCOME,
         transaction_method = TransactionMethod.CASH,
-        
     )
     seed_transaction(
         user_id = user.user_id,
@@ -136,7 +129,6 @@ def test_get_expenses_returns_all_transactions_of_current_user_with_expense_type
         amount = 100,
         transaction_type = TransactionType.EXPENSE,
         transaction_method = TransactionMethod.TRANSFER,
-        
     )
 
     user2: User = seed_user(
@@ -152,7 +144,6 @@ def test_get_expenses_returns_all_transactions_of_current_user_with_expense_type
         amount = 100,
         transaction_type = TransactionType.INCOME,
         transaction_method = TransactionMethod.TRANSFER,
-        
     )
 
     result = service.get_expenses(user, db_session)
