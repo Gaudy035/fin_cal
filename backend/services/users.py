@@ -35,7 +35,7 @@ def login_user(creds: schemas.UserCreate, db: Session):
         .first()
     )
 
-    if not user or not verify_password(creds.haslo, user.haslo):
+    if not user or not verify_password(creds.password, user.password):
         raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Incorrect email or password")
     
     access_token = create_access_token(data = {"sub": str(user.user_id)})
