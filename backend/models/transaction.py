@@ -21,5 +21,5 @@ class Transaction(Base):
     account_owner = Column(String(100), nullable=True)
     transaction_date = Column(Date, server_default=func.current_date())
     
-    user_fk = relationship("User", back_populates='transaction_fk')
-    category_fk = relationship("Category", back_populates="transaction_fk")
+    user_fk = relationship("User", back_populates='transactions_fk')
+    category_fk = relationship("Category", back_populates="transactions_fk")
