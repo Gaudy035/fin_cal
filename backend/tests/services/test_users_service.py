@@ -124,3 +124,35 @@ def test_update_email_with_incorrect_password_raises_401(db_session: Session, se
         )
 
     assert result.value.status_code == status.HTTP_401_UNAUTHORIZED
+
+def test_update_passwrod_with_correct_data_changes_password(db_session, seed_user):
+    user: User = seed_user()
+
+    assert passwords.verify_password("TestPass", user.password)
+
+    service.update_password(
+        schemas.PasswordChange(
+            current_password="TestPass",
+            new_password="NewPass"
+        ),
+        user,
+        db_session
+    )
+
+    assert not passwords.verify_password("TestPass", user.password)
+    assert passwords.verify_password("NewPass", user.password)
+
+def test_update_passwrod_with_incorrect_current_password_raises_401(db_session, seed_user):
+    user = seed_user()
+
+    with pytest.raises(HTTPException) as result:
+        service.update_password(
+            schemas.PasswordChange(
+                current_password="IncorrectPass",
+                new_password="NewPass"
+            ),
+            user,
+            db_session
+        )
+
+    assert result.value.status_code == status.HTTP_401_UNAUTHORIZED
