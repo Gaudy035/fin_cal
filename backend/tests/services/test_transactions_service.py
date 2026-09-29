@@ -52,7 +52,7 @@ def test_get_transactions_returns_all_transactions_of_current_user(db_session, s
         transaction_date = date.today()
     )
 
-    user2 = seed_user(
+    user2: User = seed_user(
         first_name = "Jane",
         last_name = "Doe",
         email = "jane@example.com",
@@ -71,3 +71,91 @@ def test_get_transactions_returns_all_transactions_of_current_user(db_session, s
     result = service.get_transactions(user, db_session)
 
     assert len(result) == 2
+
+def test_get_income_returns_all_transactions_of_current_user_with_income_type(db_session, seed_user, seed_category, seed_transaction):
+    user: User = seed_user()
+    result = service.get_income(user, db_session)
+
+    assert len(result) == 0
+
+    category: Category = seed_category()
+    seed_transaction(
+        user_id = user.user_id,
+        category_id = category.category_id,
+        amount = 100,
+        transaction_type = TransactionType.INCOME,
+        transaction_method = TransactionMethod.CASH,
+        transaction_date = date.today()
+    )
+    seed_transaction(
+        user_id = user.user_id,
+        category_id = category.category_id,
+        amount = 100,
+        transaction_type = TransactionType.EXPENSE,
+        transaction_method = TransactionMethod.TRANSFER,
+        transaction_date = date.today()
+    )
+
+    user2: User = seed_user(
+        first_name = "Jane",
+        last_name = "Doe",
+        email = "jane@example.com",
+        password = "TestPass2",
+    )
+
+    seed_transaction(
+        user_id = user2.user_id,
+        category_id = category.category_id,
+        amount = 100,
+        transaction_type = TransactionType.INCOME,
+        transaction_method = TransactionMethod.TRANSFER,
+        transaction_date = date.today()
+    )
+
+    result = service.get_income(user, db_session)
+
+    assert len(result) == 1
+
+def test_get_expenses_returns_all_transactions_of_current_user_with_expense_type(db_session, seed_user, seed_category, seed_transaction):
+    user: User = seed_user()
+    result = service.get_expenses(user, db_session)
+
+    assert len(result) == 0
+
+    category: Category = seed_category()
+    seed_transaction(
+        user_id = user.user_id,
+        category_id = category.category_id,
+        amount = 100,
+        transaction_type = TransactionType.INCOME,
+        transaction_method = TransactionMethod.CASH,
+        transaction_date = date.today()
+    )
+    seed_transaction(
+        user_id = user.user_id,
+        category_id = category.category_id,
+        amount = 100,
+        transaction_type = TransactionType.EXPENSE,
+        transaction_method = TransactionMethod.TRANSFER,
+        transaction_date = date.today()
+    )
+
+    user2: User = seed_user(
+        first_name = "Jane",
+        last_name = "Doe",
+        email = "jane@example.com",
+        password = "TestPass2",
+    )
+
+    seed_transaction(
+        user_id = user2.user_id,
+        category_id = category.category_id,
+        amount = 100,
+        transaction_type = TransactionType.INCOME,
+        transaction_method = TransactionMethod.TRANSFER,
+        transaction_date = date.today()
+    )
+
+    result = service.get_expenses(user, db_session)
+
+    assert len(result) == 1
