@@ -4,7 +4,7 @@ from security.auth import get_current_user
 from database import get_db
 from typing import List
 import schemas.recurring as schemas
-from models.user import User
+from models import User
 import services.recurring as service
 
 router = APIRouter(

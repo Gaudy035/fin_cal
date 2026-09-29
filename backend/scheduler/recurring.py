@@ -1,5 +1,4 @@
-from models.recurring import Recurring
-from models.transaction import Transaction
+from models import Recurring, Transaction
 from database import SessionLocal
 from apscheduler.schedulers.background import BackgroundScheduler
 import isodate

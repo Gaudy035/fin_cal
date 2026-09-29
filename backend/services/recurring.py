@@ -1,8 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import asc
-from models.recurring import Recurring
-from models.user import User
+from models import Recurring, User
 import schemas.recurring as schemas
 
 def add_recurring(data: schemas.RecurringCreate, db: Session, current_user:User):

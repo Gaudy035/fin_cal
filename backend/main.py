@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import engine, Base
+from database import engine
+from models import Base
 from routers import users, stats, categories, transactions, recurring
 from scheduler.recurring import start_scheduler, stop_scheduler
 

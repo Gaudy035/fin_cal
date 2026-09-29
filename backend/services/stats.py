@@ -1,7 +1,5 @@
 from sqlalchemy.orm import Session
-from models.user import User
-from models.category import Category
-from models.transaction import Transaction
+from models import User, Category, Transaction
 from sqlalchemy import func
 from enums import TransactionType
 

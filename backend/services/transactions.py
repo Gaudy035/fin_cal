@@ -1,5 +1,4 @@
-from models.transaction import Transaction
-from models.user import User
+from models import Transaction, User
 import schemas.transaction as schemas
 from sqlalchemy.orm import Session
 from sqlalchemy import desc

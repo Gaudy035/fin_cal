@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from models.user import User
+from models import User
 import schemas.user as schemas
 from security.passwords import hash_password, verify_password
 from security.auth import create_access_token
