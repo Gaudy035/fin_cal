@@ -52,7 +52,7 @@ def update_email(data: schemas.EmailChange, current_user: User, db: Session):
     
     email_exists = (
         db.query(User)
-        .filter(User == data.new_email)
+        .filter(User.email == data.new_email)
         .first()
     )
     if email_exists:
