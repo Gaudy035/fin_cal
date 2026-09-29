@@ -4,6 +4,16 @@ from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from enums import TransactionType
 
+def add_transaction(transaction: schemas.TransactionCreate, db: Session, current_user: User):
+    transaction_data = transaction.model_dump()
+    transaction_data["user_id"] = current_user.user_id
+
+    new_transaction = Transaction(**transaction_data)
+    db.add(new_transaction)
+    db.commit()
+    db.refresh(new_transaction)
+    return new_transaction
+
 def get_transactions(current_user: User, db: Session):
     transactions = (
         db.query(Transaction)
@@ -32,13 +42,3 @@ def get_expenses(current_user: User, db: Session):
         .all()
     )
     return expenses
-
-def add_payment(payment: schemas.TransactionCreate, db: Session, current_user: User):
-    payment_data = payment.model_dump()
-    payment_data["user_id"] = current_user.user_id
-
-    new_payment = Transaction(**payment_data)
-    db.add(new_payment)
-    db.commit()
-    db.refresh(new_payment)
-    return new_payment

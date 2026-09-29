@@ -13,12 +13,12 @@ router = APIRouter(
 )
 
 @router.post("", response_model = schemas.TransactionResponse, status_code = status.HTTP_201_CREATED)
-def add_payment(
-        payment: schemas.TransactionCreate, 
+def add_transaction(
+        transaction: schemas.TransactionCreate, 
         db: Session = Depends(get_db), 
         current_user:User = Depends(get_current_user)
     ):
-    return service.add_payment(payment, db, current_user)
+    return service.add_transaction(transaction, db, current_user)
 
 @router.get("", response_model = List[schemas.TransactionResponse])
 def get_transactions(current_user: User = Depends(get_current_user), db: Session=Depends(get_db)):

@@ -3,8 +3,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
 from database import Base
-from models import User, Category
+from models import User, Category, Transaction, Recurring
 from security import passwords
+from enums import TransactionMethod, TransactionType
+from datetime import date
 
 @pytest.fixture
 def engine():
@@ -56,4 +58,31 @@ def seed_user(db_session: Session):
         db_session.refresh(user)
         
         return user
+    return _seed
+
+@pytest.fixture
+def seed_transaction(db_session: Session):
+    def _seed(
+        user_id: int,
+        category_id: int,
+        amount: float,
+        transaction_type: TransactionType,
+        transaction_method: TransactionMethod,
+        transaction_date: date
+    ):
+        transaction = Transaction(
+            user_id = user_id,
+            category_id = category_id,
+            title = "Seeded title",
+            transaction_type = transaction_type,
+            transaction_method = transaction_method,
+            amount = amount,
+            transaction_date = transaction_date
+        )
+
+        db_session.add(transaction)
+        db_session.commit()
+        db_session.refresh(transaction)
+
+        return transaction
     return _seed
