@@ -6,7 +6,7 @@ from fastapi import HTTPException, status
 import schemas.user as schemas
 
 def test_register_user_with_correct_data_creates_and_returns_new_user(db_session):
-    user_data = User(
+    user_data = schemas.UserCreate(
         first_name = "John",
         last_name = "Doe",
         email = "john@example.com",
@@ -37,9 +37,7 @@ def test_register_user_with_duplicate_email_raises_409(db_session, seed_user):
 def test_login_user_with_correct_credentials_return_correct_access_token(db_session, seed_user):
     user: User = seed_user()
 
-    result = service.login_user(schemas.UserCreate(
-        first_name = "John",
-        last_name = "Doe",
+    result = service.login_user(schemas.UserLogin(
         email = "john@example.com",
         password = "TestPass"
     ), db_session)

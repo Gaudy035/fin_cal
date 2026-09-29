@@ -5,7 +5,7 @@ import schemas.user as schemas
 from security.passwords import hash_password, verify_password
 from security.auth import create_access_token
 
-def register_user(user: User, db: Session):
+def register_user(user: schemas.UserCreate, db: Session):
     db_user = (
         db.query(User)
         .filter(User.email == user.email)
@@ -28,7 +28,7 @@ def register_user(user: User, db: Session):
     db.refresh(new_user)
     return new_user
 
-def login_user(creds: schemas.UserCreate, db: Session):
+def login_user(creds: schemas.UserLogin, db: Session):
     user = (
         db.query(User)
         .filter(User.email == creds.email)

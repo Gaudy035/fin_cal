@@ -13,6 +13,10 @@ class UserResponse(UserBase):
     is_active: bool | None
     model_config = ConfigDict(from_attributes = True)
 
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
 class EmailChange(BaseModel):
     current_password: str
     new_email: str
