@@ -1,8 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import models
-from database import engine
+from database import engine, Base
 from routers import users, stats, categories, transactions, recurring
 from scheduler.recurring import start_scheduler, stop_scheduler
 
@@ -20,7 +19,7 @@ app.include_router(stats.router)
 app.include_router(transactions.router)
 app.include_router(recurring.router)
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 origins = [
     "http://localhost:5173",
