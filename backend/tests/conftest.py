@@ -3,8 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
 from database import Base
-from models import User
-from main import app
+from models import User, Category
 from security import passwords
 
 @pytest.fixture
@@ -23,6 +22,17 @@ def db_session(engine):
     TestingSession = sessionmaker(bind=engine, expire_on_commit=False)
     with TestingSession() as session:
         yield session
+
+@pytest.fixture
+def seed_category(db_session: Session):
+    def _seed(name: str = "Food"):
+        category = Category(category_name = name)
+        db_session.add(category)
+        db_session.commit()
+        db_session.refresh(category)
+        return category
+    return _seed
+
 
 @pytest.fixture
 def seed_user(db_session: Session):
