@@ -16,7 +16,7 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return service.register_user(user, db)
 
 @router.post("/login")
-def login_user(creds: schemas.UserCreate, db: Session = Depends(get_db)):
+def login_user(creds: schemas.UserLogin, db: Session = Depends(get_db)):
     return service.login_user(creds, db)
 
 @router.put("/update_email")
