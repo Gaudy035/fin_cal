@@ -13,7 +13,7 @@ export default function RightPanel() {
       return;
     }
 
-    api
+api
       .get('/transactions/expenses')
       .then((response) => setWydatki(response.data))
       .catch((error) => console.log('Blad przy pobieraniu wydatkow', error));
@@ -27,14 +27,14 @@ export default function RightPanel() {
       {token
         ? wydatki.map((item) => (
             <PaymentBox
-              key={item.id_transakcji}
-              kwota={item.kwota}
-              typ={item.typ}
-              tytul={item.tytul}
-              data={item.data}
-              metoda={item.metoda}
-              wlasciciel_konta={item.wlasciciel_konta}
-              konto={item.konto}
+              key={item.transaction_id}
+              amount={item.amount}
+              transaction_type={item.transaction_type}
+              title={item.title}
+              transaction_date={item.transaction_date}
+              transaction_method={item.transaction_method}
+              account_owner={item.account_owner}
+              account={item.account}
             />
           ))
         : 'Zaloguj sie by wyswietlic wydatki'}

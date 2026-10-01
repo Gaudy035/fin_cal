@@ -37,14 +37,14 @@ export default function PassChange() {
       >
         <h1 className='font-bold text-2xl'>Zmiana hasla</h1>
         <InputTemp
-          inpId='new_pass'
-          inpName='new_pass'
+          inpId='new_password'
+          inpName='new_password'
           inpText='Nowe haslo:'
           inpType='password'
         />
         <InputTemp
-          inpId='current_pass'
-          inpName='current_pass'
+          inpId='current_password'
+          inpName='current_password'
           inpText='Aktualne haslo:'
           inpType='password'
         />

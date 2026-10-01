@@ -42,8 +42,8 @@ export default function EmailChange() {
           inpType='email'
         />
         <InputTemp
-          inpId='current_pass'
-          inpName='current_pass'
+          inpId='current_password'
+          inpName='current_password'
           inpText='Aktualne haslo:'
           inpType='password'
         />

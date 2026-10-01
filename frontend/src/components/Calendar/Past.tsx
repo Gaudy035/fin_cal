@@ -23,15 +23,15 @@ export default function Past() {
     <div className='flex flex-col justify-center items-center w-1/2'>
       {transakcje.map((item) => (
         <PaymentBox
-          key={item.id_transakcji}
-          kwota={item.kwota}
-          typ={item.typ}
-          tytul={item.tytul}
-          data={item.data}
-          konto={item.konto}
-          metoda={item.metoda}
-          wlasciciel_konta={item.wlasciciel_konta}
-          opis={item.opis}
+          key={item.transaction_id}
+          amount={item.amount}
+          transaction_type={item.transaction_type}
+          title={item.title}
+          transaction_date={item.transaction_date}
+          account={item.account}
+          transaction_method={item.transaction_method}
+          account_owner={item.account_owner}
+          description={item.description}
         />
       ))}
     </div>

@@ -23,19 +23,19 @@ export default function Upcoming() {
     <div className='flex flex-col justify-center items-center w-1/2'>
       {transakcje.map((item) => (
         <RecurringBox
-          id_t_powtarzalnej={item.id_t_powtarzalnej}
-          id_kategorii={item.id_kategorii}
-          key={item.id_t_powtarzalnej}
-          kwota={item.kwota}
-          tytul={item.tytul}
-          opis={item.opis}
-          wlasciciel_konta={item.wlasciciel_konta}
-          konto={item.konto}
-          metoda={item.metoda}
-          typ={item.typ}
-          nastepny_termin={item.nastepny_termin}
-          co_ile={item.co_ile}
-          czy_aktywna={item.czy_aktywna}
+          recurring_id={item.recurring_id}
+          category_id={item.category_id}
+          key={item.recurring_id}
+          amount={item.amount}
+          title={item.title}
+          description={item.description}
+          account_owner={item.account_owner}
+          account={item.account}
+          transaction_method={item.transaction_method}
+          transaction_type={item.transaction_type}
+          next_date={item.next_date}
+          interval={item.interval}
+          is_active={item.is_active}
         />
       ))}
     </div>

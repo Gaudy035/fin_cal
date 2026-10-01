@@ -36,10 +36,12 @@ export default function PaymentForm() {
     let endpoint = '/transactions';
     if (isRecurring) {
       endpoint = '/recurring';
-      payload.nastepny_termin = formValues.data;
+      payload.next_date = formValues.data;
       delete payload.data;
     } else {
-      delete payload.co_ile;
+      payload.transaction_date = formValues.data;
+      delete payload.data;
+      delete payload.interval;
     }
 
     try {
@@ -95,9 +97,9 @@ export default function PaymentForm() {
           {/* Prawa strona */}
           <div className='flex flex-col justify-center items-center gap-6'>
             <InputTemp
-              inpId='transaction_date'
+              inpId='data'
               inpText='Data:'
-              inpName='transaction_date'
+              inpName='data'
               inpType='date'
             />
 
@@ -110,21 +112,11 @@ export default function PaymentForm() {
 
             <div className='flex justify-between items-center min-w-full px-2'>
               <div className='flex gap-2 justify-center items-center'>
-                <input
-                  type='radio'
-                  name='transaction_type'
-                  id='expense'
-                  value='expense'
-                />
+                <input type='radio' name='transaction_type' id='expense' value='expense' />
                 <label htmlFor='expense'>Wydatek</label>
               </div>
               <div className='flex gap-2 justify-center items-center'>
-                <input
-                  type='radio'
-                  name='transaction_type'
-                  id='income'
-                  value='income'
-                />
+                <input type='radio' name='transaction_type' id='income' value='income' />
                 <label htmlFor='income'>Wplyw</label>
               </div>
             </div>

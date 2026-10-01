@@ -28,11 +28,11 @@ export default function RecurringForm() {
     const formValues = Object.fromEntries(formData.entries());
     const payload = {
       ...formValues,
-      czy_aktywna: formData.get('czy_aktywna') === 'on',
+      is_active: formData.get('is_active') === 'on',
     };
 
     try {
-      await api.put(`/recurring/${editData.id_t_powtarzalnej}`, payload);
+      await api.put(`/recurring/${editData.recurring_id}`, payload);
       navigate('/kalendarz');
     } catch (error) {
       console.log('Blad polaczenia z API', error);
@@ -153,9 +153,9 @@ export default function RecurringForm() {
             <div className='flex justify-between items-center min-w-full px-2'>
               <div className='flex gap-2 justify-center items-center'>
                 <input
-                  defaultChecked={editData?.transaction_method === 'przelew'}
+                  defaultChecked={editData?.transaction_method === 'transfer'}
                   type='radio'
-                  name='metoda'
+                  name='transaction_method'
                   id='transfer'
                   value='transfer'
                 />
@@ -163,9 +163,9 @@ export default function RecurringForm() {
               </div>
               <div className='flex gap-2 justify-center items-center'>
                 <input
-                  defaultChecked={editData?.transaction_method === 'gotowka'}
+                  defaultChecked={editData?.transaction_method === 'cash'}
                   type='radio'
-                  name='metoda'
+                  name='transaction_method'
                   id='cash'
                   value='cash'
                 />
