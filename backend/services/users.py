@@ -60,7 +60,7 @@ def update_email(data: schemas.EmailChange, current_user: User, db: Session):
     
     current_user.email=data.new_email
     db.commit()
-    return{"message": "Email changed successfully"}
+    return {"message": "Email changed successfully"}
 
 def update_password(data: schemas.PasswordChange, current_user: User, db: Session):
     if not verify_password(data.current_password, current_user.password):
@@ -69,3 +69,11 @@ def update_password(data: schemas.PasswordChange, current_user: User, db: Sessio
     current_user.password = hash_password(data.new_password)
     db.commit()
     return {"message": "Password changed successfully"}
+
+def delete_user(data: schemas.UserDelete, current_user: User, db: Session):
+    if not verify_password(data.password, current_user.password):
+        raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Incorrect password")
+
+    db.delete(current_user)
+    db.commit()
+    return {"message": "User deleted successfully"}
