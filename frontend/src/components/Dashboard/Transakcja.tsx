@@ -1,13 +1,13 @@
 export default interface Transakcja {
-  id_transakcji: number;
-  id_uzytkownika: number;
-  id_kategorii: number | null;
-  typ: 'wplyw' | 'wydatek';
-  tytul: string;
-  opis: string | null;
-  kwota: number;
-  metoda: string;
-  konto: string | null;
-  wlasciciel_konta: string | null;
-  data: string;
+  transaction_id: number;
+  user_id: number;
+  category_id: number | null;
+  transaction_type: 'income' | 'expense';
+  title: string;
+  description: string | null;
+  amount: number;
+  transaction_method: string;
+  account: string | null;
+  account_owner: string | null;
+  transaction_date: string;
 }
