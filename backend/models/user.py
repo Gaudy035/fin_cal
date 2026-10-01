@@ -15,5 +15,11 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     deleted_at = Column(TIMESTAMP, nullable=True)
 
-    transactions_fk = relationship("Transaction", back_populates="user_fk")
-    recurring_fk = relationship("Recurring", back_populates="user_fk")
+    transactions_fk = relationship(
+        "Transaction", back_populates="user_fk",
+        passive_deletes=True
+    )
+    recurring_fk = relationship(
+        "Recurring", back_populates="user_fk",
+        passive_deletes=True
+    )

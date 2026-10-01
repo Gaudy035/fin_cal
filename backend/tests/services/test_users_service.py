@@ -1,5 +1,5 @@
 import services.users as service
-from models import User
+from models import User, Category, Recurring, Transaction
 from security import passwords, auth
 import pytest
 from fastapi import HTTPException, status
@@ -189,3 +189,62 @@ def test_delete_user_with_incorrect_password_does_not_delete_and_raises_401(db_s
     user_refetch = db_session.get(User, user_id)
 
     assert user_refetch is not None
+
+def test_delete_user_deletes_related_transactions(
+        db_session: Session,
+        seed_user,
+        seed_transaction,
+        seed_recurring,
+        seed_category
+):
+    user: User = seed_user()
+    
+    category: Category = seed_category()
+    
+    seed_transaction(
+        user_id = user.user_id,
+        category_id = category.category_id
+    )
+
+    seed_recurring(
+        user_id = user.user_id,
+        category_id = category.category_id
+    )
+
+    schema = schemas.UserDelete(
+        password = "TestPass"
+    )
+
+    user_id = user.user_id
+
+    count_trasactions = (
+        db_session.query(Transaction)
+        .filter(Transaction.user_id == user_id)
+        .count()
+    )
+
+    count_recurring = (
+        db_session.query(Recurring)
+        .filter(Recurring.user_id == user_id)
+        .count()
+    )
+
+    assert count_trasactions == 1
+    assert count_recurring == 1
+
+    service.delete_user(schema, user, db_session)
+
+    count_trasactions = (
+        db_session.query(Transaction)
+        .filter(Transaction.user_id == user_id)
+        .count()
+    )
+
+    count_recurring = (
+        db_session.query(Recurring)
+        .filter(Recurring.user_id == user_id)
+        .count()
+    )
+
+    assert count_trasactions == 0
+    assert count_recurring == 0

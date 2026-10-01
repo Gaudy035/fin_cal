@@ -1,5 +1,5 @@
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
 from database import Base
@@ -15,6 +15,13 @@ def engine():
         connect_args={"check_same_thread": False},
         poolclass=StaticPool
     )
+
+    @event.listens_for(engine, "connect")
+    def enable_foreign_keys(dbapi_connection, connection_record):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
+
     Base.metadata.create_all(engine)
     yield engine
     engine.dispose()
@@ -65,9 +72,9 @@ def seed_transaction(db_session: Session):
     def _seed(
         user_id: int,
         category_id: int,
-        amount: float,
-        transaction_type: TransactionType,
-        transaction_method: TransactionMethod,
+        amount: float = 100,
+        transaction_type: TransactionType = TransactionType.EXPENSE,
+        transaction_method: TransactionMethod = TransactionMethod.CASH,
         transaction_date: date = date.today()
     ):
         transaction = Transaction(
@@ -92,9 +99,9 @@ def seed_recurring(db_session: Session):
     def _seed(
         user_id: int,
         category_id: int,
-        amount: float,
-        transaction_type: TransactionType,
-        transaction_method: TransactionMethod,
+        amount: float = 100,
+        transaction_type: TransactionType = TransactionType.EXPENSE,
+        transaction_method: TransactionMethod = TransactionMethod.CASH,
         next_date: date = date.today() + timedelta(weeks=1),
         interval: str = "P30D"
     ):
