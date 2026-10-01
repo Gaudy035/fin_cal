@@ -1,0 +1,467 @@
+{
+  "info": {
+    "_postman_id": "e1a268ee-58d8-49d5-b294-114a2410b3c9",
+    "name": "fin_cal_api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58608567",
+    "_collection_link": "https://go.postman.co/collection/58608567-e1a268ee-58d8-49d5-b294-114a2410b3c9?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Postman\",\n  \"last_name\": \"User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"TestPass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();\nconst token = res.access_token;\n\npm.collectionVariables.set(\"access_token\", token);\n\nconst payload = token.split('.')[1];\nconst decoded = JSON.parse(\n    Buffer.from(payload.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8')\n);\n\nconst user_id = decoded.sub;\n\npm.collectionVariables.set(\"user_id\", user_id);\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"TestPass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update email",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"TestPass\",\n  \"new_email\": \"new.email@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/update_email",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "update_email"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update password",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"TestPass\",\n  \"new_password\": \"NewPass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/update_password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users",
+                "update_password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.unset(\"access_token\");"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"NewPass\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Add income",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": {{user_id}},\n  \"category_id\": 1,\n  \"transaction_type\": \"income\",\n  \"title\": \"Test transaction\",\n  \"description\": \"Test description\",\n  \"amount\": 1000,\n  \"transaction_method\": \"cash\",\n  \"account\": \"test account\",\n  \"account_owner\": \"owner\",\n  \"transaction_date\": \"2026-10-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/transactions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "transactions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add expense",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": {{user_id}},\n  \"category_id\": 1,\n  \"transaction_type\": \"expense\",\n  \"title\": \"Test transaction\",\n  \"description\": \"Test description\",\n  \"amount\": 1500,\n  \"transaction_method\": \"transfer\",\n  \"account\": \"test account\",\n  \"account_owner\": \"owner\",\n  \"transaction_date\": \"2026-10-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/transactions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "transactions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/transactions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "transactions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/transactions/expenses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "transactions",
+                "expenses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get income",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/transactions/income",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "transactions",
+                "income"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Recurring",
+      "item": [
+        {
+          "name": "Add recurring",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "res = pm.response.json();\n\npm.collectionVariables.set(\"recurring_id\", Number(res.recurring_id));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": {{user_id}},\n  \"category_id\": 1,\n  \"transaction_type\": \"income\",\n  \"title\": \"Test recurring\",\n  \"description\": \"Test desc\",\n  \"amount\": 1000,\n  \"transaction_method\": \"cash\",\n  \"account\": \"test account\",\n  \"account_owner\": \"test account_owner\",\n  \"interval\": \"P30D\",\n  \"next_date\": \"2026-10-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/recurring",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "recurring"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get recurring",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/recurring",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "recurring"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Modify recurring",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": {{user_id}},\n  \"category_id\": 1,\n  \"transaction_type\": \"income\",\n  \"title\": \"Test recurring\",\n  \"description\": \"Test desc\",\n  \"amount\": 1000,\n  \"transaction_method\": \"cash\",\n  \"account\": \"test account\",\n  \"account_owner\": \"test account_owner\",\n  \"interval\": \"P30D\",\n  \"next_date\": \"2026-10-01\",\n  \"is_active\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/recurring/{{recurring_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "recurring",
+                "{{recurring_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Get stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/stats/summary",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "stats",
+                "summary"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "user_id",
+      "value": ""
+    },
+    {
+      "key": "recurring_id",
+      "value": ""
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    }
+  ]
+}
