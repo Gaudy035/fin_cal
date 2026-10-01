@@ -156,3 +156,36 @@ def test_update_passwrod_with_incorrect_current_password_raises_401(db_session, 
         )
 
     assert result.value.status_code == status.HTTP_401_UNAUTHORIZED
+
+def test_delete_user_with_correct_password_deletes_user(db_session: Session, seed_user):
+    user: User = seed_user()
+
+    schema = schemas.UserDelete(
+        password = "TestPass"
+    )
+
+    user_id = user.user_id
+
+    service.delete_user(schema, user, db_session)
+
+    deleted_user = db_session.get(User, user_id)
+
+    assert deleted_user is None
+
+def test_delete_user_with_incorrect_password_does_not_delete_and_raises_401(db_session: Session, seed_user):
+    user: User = seed_user()
+
+    schema = schemas.UserDelete(
+        password = "IncorrectPassword"
+    )
+
+    user_id = user.user_id
+
+    with pytest.raises(HTTPException) as result:
+        service.delete_user(schema, user, db_session)
+
+    assert result.value.status_code == status.HTTP_401_UNAUTHORIZED
+
+    user_refetch = db_session.get(User, user_id)
+
+    assert user_refetch is not None
