@@ -29,7 +29,16 @@ def update_email(
 
 @router.put("/update_password")
 def update_password(
-    data: schemas.PasswordChange, current_user: User = Depends(get_current_user), 
+    data: schemas.PasswordChange, 
+    current_user: User = Depends(get_current_user), 
     db: Session = Depends(get_db)
 ):
     return service.update_password(data, current_user, db)
+
+@router.delete("", status_code = status.HTTP_204_NO_CONTENT)
+def delete_user(
+    data: schemas.UserDelete,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    return service.delete_user(data, current_user, db)
