@@ -8,7 +8,7 @@ import services.users as service
 
 router = APIRouter(
     tags = ["users"],
-    prefix = "/user"
+    prefix = "/users"
 )
 
 @router.post("/register", response_model = schemas.UserResponse, status_code = status.HTTP_201_CREATED)
