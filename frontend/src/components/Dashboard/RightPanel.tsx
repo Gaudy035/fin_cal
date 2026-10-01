@@ -14,7 +14,7 @@ export default function RightPanel() {
     }
 
     api
-      .get('/wydatki')
+      .get('/transactions/expenses')
       .then((response) => setWydatki(response.data))
       .catch((error) => console.log('Blad przy pobieraniu wydatkow', error));
   }, [token]);

@@ -16,7 +16,7 @@ export default function EmailChange() {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      await api.put('/update_email', payload);
+      await api.put('/users/update_email', payload);
       setSucces(true);
       setTimeout(() => {
         localStorage.removeItem('token');

@@ -10,8 +10,8 @@ import { useEffect, useState } from 'react';
 import api from '../../api';
 
 interface Stat {
-  kategoria: string;
-  kwota: number;
+  category: string;
+  amount: number;
 }
 
 ChartJS.register(ArcElement, Tooltip, Legend, plugins);
@@ -27,7 +27,7 @@ export default function PieChart() {
     }
 
     api
-      .get('/get_stats')
+      .get('/stats')
       .then((response) => setStats(response.data))
       .catch((error) => console.log('Blad polaczenia z API', error));
   }, [token]);
@@ -48,11 +48,11 @@ export default function PieChart() {
   };
 
   const chartData = {
-    labels: stats.map((item) => item.kategoria),
+    labels: stats.map((item) => item.category),
     datasets: [
       {
         label: 'Wydatki',
-        data: stats.map((item) => item.kwota),
+        data: stats.map((item) => item.amount),
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)',
           'rgba(54, 162, 235, 0.6)',

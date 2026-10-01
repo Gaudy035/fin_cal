@@ -19,7 +19,7 @@ export default function RegisterForm() {
     const payload = { ...formValues };
 
     try {
-      await api.post('/register', payload);
+      await api.post('/users/register', payload);
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');

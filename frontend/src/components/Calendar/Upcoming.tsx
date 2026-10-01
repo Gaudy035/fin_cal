@@ -14,7 +14,7 @@ export default function Upcoming() {
     }
 
     api
-      .get('/get_recurring')
+      .get('/recurring')
       .then((response) => setTransakcje(response.data))
       .catch((error) => console.log('blad polaczenia z API', error));
   }, [token]);

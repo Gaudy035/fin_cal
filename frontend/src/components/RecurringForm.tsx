@@ -17,7 +17,7 @@ export default function RecurringForm() {
 
   useEffect(() => {
     api
-      .get('/kategorie')
+      .get('/categories')
       .then((response) => setKategorie(response.data))
       .catch((error) => console.log('Blad przy pobieraniu kategorii: ', error));
   }, []);
@@ -32,7 +32,7 @@ export default function RecurringForm() {
     };
 
     try {
-      await api.put(`/modify_recurring/${editData.id_t_powtarzalnej}`, payload);
+      await api.put(`/recurring/${editData.id_t_powtarzalnej}`, payload);
       navigate('/kalendarz');
     } catch (error) {
       console.log('Blad polaczenia z API', error);

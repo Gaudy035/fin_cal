@@ -23,7 +23,7 @@ export default function LoginForm() {
     };
 
     try {
-      const response = await api.post('/login', payload);
+      const response = await api.post('/users/login', payload);
       localStorage.setItem('token', response.data.access_token);
       navigate('/');
     } catch (err: any) {

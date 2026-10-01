@@ -23,15 +23,15 @@ ChartJS.register(
 );
 
 interface Summary {
-  typ: string;
-  kwota: number;
+  type: string;
+  amount: number;
 }
 
 export default function BarChart() {
   const token = localStorage.getItem('token');
   const [summary, setSummary] = useState<Summary[]>([]);
-  const wplywy = summary.find((s) => s.typ === 'wplyw')?.kwota || 0;
-  const wydatki = summary.find((s) => s.typ === 'wydatek')?.kwota || 0;
+  const wplywy = summary.find((s) => s.type === 'income')?.amount || 0;
+  const wydatki = summary.find((s) => s.type === 'expense')?.amount || 0;
   let bilans: number = wplywy - wydatki;
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function BarChart() {
     }
 
     api
-      .get('/get_summary')
+      .get('/stats/summary')
       .then((response) => setSummary(response.data))
       .catch((error) => console.log('Blad polaczenia z API', error));
   }, [token]);

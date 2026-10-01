@@ -17,7 +17,7 @@ export default function PassChange() {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      await api.put('/update_password', payload);
+      await api.put('/users/update_password', payload);
       setSuccess(true);
       setTimeout(() => {
         localStorage.removeItem('token');

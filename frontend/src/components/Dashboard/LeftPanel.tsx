@@ -14,7 +14,7 @@ export default function LeftPanel() {
     }
 
     api
-      .get('/wplywy')
+      .get('/transactions/income')
       .then((response) => setWplywy(response.data))
       .catch((error) => console.log('Blad przy pobieraniu wplywow', error));
   }, [token]);

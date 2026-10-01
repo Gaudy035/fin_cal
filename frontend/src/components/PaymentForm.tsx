@@ -17,7 +17,7 @@ export default function PaymentForm() {
 
   useEffect(() => {
     api
-      .get('/kategorie')
+      .get('/categories')
       .then((response) => {
         setKategorie(response.data);
       })
@@ -33,9 +33,9 @@ export default function PaymentForm() {
     let payload = { ...formValues };
     delete payload.czy_powt;
 
-    let endpoint = '/add_payment';
+    let endpoint = '/transactions';
     if (isRecurring) {
-      endpoint = '/add_recurring';
+      endpoint = '/recurring';
       payload.nastepny_termin = formValues.data;
       delete payload.data;
     } else {

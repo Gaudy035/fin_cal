@@ -14,7 +14,7 @@ export default function Past() {
     }
 
     api
-      .get('/transakcje')
+      .get('/transactions')
       .then((response) => setTransakcje(response.data))
       .catch((error) => console.log('Blad polaczenia z API', error));
   }, [token]);
