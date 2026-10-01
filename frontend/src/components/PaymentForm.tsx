@@ -112,11 +112,21 @@ export default function PaymentForm() {
 
             <div className='flex justify-between items-center min-w-full px-2'>
               <div className='flex gap-2 justify-center items-center'>
-                <input type='radio' name='transaction_type' id='expense' value='expense' />
+                <input
+                  type='radio'
+                  name='transaction_type'
+                  id='expense'
+                  value='expense'
+                />
                 <label htmlFor='expense'>Wydatek</label>
               </div>
               <div className='flex gap-2 justify-center items-center'>
-                <input type='radio' name='transaction_type' id='income' value='income' />
+                <input
+                  type='radio'
+                  name='transaction_type'
+                  id='income'
+                  value='income'
+                />
                 <label htmlFor='income'>Wplyw</label>
               </div>
             </div>

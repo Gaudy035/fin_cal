@@ -13,7 +13,7 @@ export default function RightPanel() {
       return;
     }
 
-api
+    api
       .get('/transactions/expenses')
       .then((response) => setWydatki(response.data))
       .catch((error) => console.log('Blad przy pobieraniu wydatkow', error));
