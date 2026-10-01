@@ -1,90 +1,92 @@
-# Monitor Finansowy
+# Financial Monitor
 
-Aplikacja webowa do monitorowania finansów. Umożliwia śledzenie nadchodzących transakcji, historii przeszłych i dodawanie nowych, w tym cyklicznych powtarzających się automatycznie. Ma mozliwosc wyswietlania wykresów bilansu wpływów i wydatków na obecny miesiąc, a także wydatków podzielonych na kategorie.
+A web application for monitoring finances. It allows tracking upcoming transactions, past history, and adding new ones, including recurring ones that repeat automatically. It can display balance charts of income and expenses for the current month, as well as expenses broken down by category.
 
-## Technologie
+## Technologies
 
-- **FRONTEND:** React, TypeScript, Vite, TailwindCSS
-- **BACKEND:** FastAPI, SQLAlchemy, APScheduler
-- **BAZA DANYCH:** PostgreSQL
+- **FRONTEND:** React, TypeScript, Vite, TailwindCSS, Bun
+- **BACKEND:** FastAPI, SQLAlchemy, Alembic, APScheduler
+- **DATABASE:** PostgreSQL
 - **DEPLOYMENT:** Docker, Nginx
 
-## Wymagania
+## Requirements
 
 - Docker
-  lub lokalnie:
-- Python 3.14, Node.js 25, PostgreSQL 16
+  or locally:
+- Python 3.14, Bun, PostgreSQL 16
 
-## Zmienne srodowiskowe:
+## Environment variables:
 
-### `.env` - Baza danych (Docker)
+### `.env` - Database (Docker)
 
-| Zmienna             | Opis                   |
-| ------------------- | ---------------------- |
-| `POSTGRES_DB`       | Nazwa bazy danych      |
-| `POSTGRES_USER`     | Użytkownik bazy danych |
-| `POSTGRES_PASSWORD` | Haslo użytkownika      |
+| Variable            | Description           |
+| ------------------- | --------------------- |
+| `POSTGRES_DB`       | Database name         |
+| `POSTGRES_USER`     | Database user         |
+| `POSTGRES_PASSWORD` | User password         |
 
 ### `backend/.env`
 
-| Zmienna             | Opis                                          |
-| ------------------- | --------------------------------------------- |
-| `DB_USER`           | Użytkownik bazy danych                        |
-| `DB_PASS`           | Hasło użytkownika bazy danych                 |
-| `DB_HOST`           | Serwer bazy danych dla developmentu lokalnego |
-| `DB_PORT`           | Port serwera bazy danych                      |
-| `DB_NAME`           | Nazwa bazy danych                             |
-| `SECRET_KEY`        | Klucz uzywany dla tokenow JWT                 |
-| `TOKEN_EXPIRE_MINS` | Czas zycia tokena JWT w minutach              |
+| Variable            | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `DB_USER`           | Database user                                |
+| `DB_PASS`           | Database user password                       |
+| `DB_HOST`           | Database server for local development        |
+| `DB_PORT`           | Database server port                         |
+| `DB_NAME`           | Database name                                |
+| `SECRET_KEY`        | Key used for JWT tokens                      |
+| `TOKEN_EXPIRE_MINS` | JWT token lifetime in minutes                |
 
-### `frontend/.env` (serwer lokalny) | `frontend/.env.production` (Docker)
+### `frontend/.env` (local server) | `frontend/.env.production` (Docker)
 
-| Zmienna        | Opis               |
-| -------------- | ------------------ |
-| `VITE_API_URL` | Adres API backendu |
+| Variable       | Description         |
+| -------------- | ------------------- |
+| `VITE_API_URL` | Backend API address |
 
-Tu nalezy utworzyc dwa pliki zgodnie z `.env.example`.
+Create both files following `.env.example`.
 
-**.env** dla serwera lokalnego i **.env.production** dla Dockera
+**.env** for the local server (e.g. `http://127.0.0.1:8000`) and **.env.production** for Docker (e.g. `http://localhost/api`)
 
-## Uruchamianie przez Docker
+## Running with Docker
 
-Utwórz i uzupelnij pliki `.env` zgodnie z example i opisem powyżej
+Create and fill in the `.env` files according to the examples and descriptions above
 
-Przy pierwszym uruchomieniu:
+Database migrations (Alembic) run automatically when the backend starts.
+
+First run:
 
 ```bash
 docker-compose up --build
 ```
 
-Przy nastepnych uruchomieniach:
+Subsequent runs:
 
 ```bash
 docker-compose up
 ```
 
-## Uruchamianie lokalnie
+## Running locally
 
-Utwórz i uzupelnij pliki `.env` zgodnie z example i opisem powyżej
+Create and fill in the `.env` files according to the examples and descriptions above
 
 ### FRONTEND
 
-Przy pierwszym uruchomieniu:
+First run:
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
-Przy nastepnych uruchomieniach:
+Subsequent runs:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 ### BACKEND
 
-Przy pierwszym uruchomieniu:
+First run:
 
 ```bash
 python -m venv .venv
@@ -93,23 +95,45 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-Przy następnych uruchomieniach:
+Subsequent runs:
 
 ```bash
 source .venv/bin/activate
 uvicorn main:app --reload
 ```
 
-### BAZA DANYCH
+### DATABASE
 
-Uruchom serwer PostgreSQL i wykonaj skrypt `db/skrypt.sql`
+Start a PostgreSQL server, create the database, and run the migrations:
 
-## Struktura projektu
+```bash
+alembic upgrade head
+```
+
+### TESTS
+
+Run the backend tests (pytest) from the `backend` directory:
+
+```bash
+pytest
+```
+
+The API request collection is located in `backend/postman`.
+
+## Project structure
 
 ```bash
 fin_cal/
-├── backend         # FastAPI
-├── frontend        # React
-├── db              # Skrypty SQL
+├── backend          # FastAPI
+│   ├── alembic      # Database migrations
+│   ├── models       # SQLAlchemy models
+│   ├── routers      # API endpoints
+│   ├── schemas      # Pydantic schemas
+│   ├── services     # Business logic
+│   ├── security     # Authorization and passwords
+│   ├── scheduler    # Recurring jobs (APScheduler)
+│   ├── tests        # pytest tests
+│   └── postman      # Postman collection
+├── frontend         # React
 └── docker-compose.yaml
 ```
