@@ -17,8 +17,8 @@ export default function LoginForm() {
     const formValues = Object.fromEntries(formData.entries());
 
     const payload = {
-      imie: '',
-      nazwisko: '',
+      first_name: '',
+      last_name: '',
       ...formValues,
     };
 
@@ -48,8 +48,8 @@ export default function LoginForm() {
         <InputTemp
           inpType='password'
           inpText='Haslo:'
-          inpId='haslo'
-          inpName='haslo'
+          inpId='password'
+          inpName='password'
         />
         <ButtonTemp btnText='LOG-IN' btnType='submit' />
         <div className='flex justify-center items-center flex-col'>

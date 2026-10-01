@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 
 interface Kategoria {
-  id_kategorii: number;
-  nazwa: string;
+  category_id: number;
+  category_name: string;
 }
 
 export default function PaymentForm() {
@@ -61,32 +61,32 @@ export default function PaymentForm() {
           {/* Lewa strona */}
           <div className='flex flex-col justify-center items-center gap-6 min-h-full'>
             <InputTemp
-              inpId='tytul'
+              inpId='title'
               inpText='Tytul:'
-              inpName='tytul'
+              inpName='title'
               inpType='text'
             />
 
             <textarea
-              name='opis'
-              id='opis'
+              name='description'
+              id='description'
               placeholder='Opis:'
               required
               className='bg-neutral-800 border-2 border-white py-2 px-4 resize-none'
             ></textarea>
 
             <InputTemp
-              inpId='konto'
+              inpId='account'
               inpText='Konto:'
-              inpName='konto'
+              inpName='account'
               inpType='number'
               optional
             />
 
             <InputTemp
-              inpId='wlasciciel_konta'
+              inpId='account_owner'
               inpText='Wlasciciel Konta:'
-              inpName='wlasciciel_konta'
+              inpName='account_owner'
               inpType='text'
               optional
             />
@@ -95,42 +95,52 @@ export default function PaymentForm() {
           {/* Prawa strona */}
           <div className='flex flex-col justify-center items-center gap-6'>
             <InputTemp
-              inpId='data'
+              inpId='transaction_date'
               inpText='Data:'
-              inpName='data'
+              inpName='transaction_date'
               inpType='date'
             />
 
             <InputTemp
-              inpId='kwota'
+              inpId='amount'
               inpText='Kwota:'
-              inpName='kwota'
+              inpName='amount'
               inpType='number'
             />
 
             <div className='flex justify-between items-center min-w-full px-2'>
               <div className='flex gap-2 justify-center items-center'>
-                <input type='radio' name='typ' id='wydatek' value='wydatek' />
-                <label htmlFor='wydatek'>Wydatek</label>
+                <input
+                  type='radio'
+                  name='transaction_type'
+                  id='expense'
+                  value='expense'
+                />
+                <label htmlFor='expense'>Wydatek</label>
               </div>
               <div className='flex gap-2 justify-center items-center'>
-                <input type='radio' name='typ' id='wplyw' value='wplyw' />
-                <label htmlFor='wplyw'>Wplyw</label>
+                <input
+                  type='radio'
+                  name='transaction_type'
+                  id='income'
+                  value='income'
+                />
+                <label htmlFor='income'>Wplyw</label>
               </div>
             </div>
 
             <div className='flex gap-2'>
               <p>Kategoria:</p>
               <select
-                name='id_kategorii'
-                id='id_kategorii'
+                name='category_id'
+                id='category_id'
                 className='border-2'
                 required
               >
                 <option value=''>---</option>
                 {kategorie.map((item) => (
-                  <option key={item.id_kategorii} value={item.id_kategorii}>
-                    {item.nazwa}
+                  <option key={item.category_id} value={item.category_id}>
+                    {item.category_name}
                   </option>
                 ))}
               </select>
@@ -140,20 +150,20 @@ export default function PaymentForm() {
               <div className='flex gap-2 justify-center items-center'>
                 <input
                   type='radio'
-                  name='metoda'
-                  id='przelew'
-                  value='przelew'
+                  name='transaction_method'
+                  id='transfer'
+                  value='transfer'
                 />
-                <label htmlFor='przelew'>Przelew</label>
+                <label htmlFor='transfer'>Przelew</label>
               </div>
               <div className='flex gap-2 justify-center items-center'>
                 <input
                   type='radio'
-                  name='metoda'
-                  id='gotowka'
-                  value='gotowka'
+                  name='transaction_method'
+                  id='cash'
+                  value='cash'
                 />
-                <label htmlFor='gotowka'>Gotowka</label>
+                <label htmlFor='cash'>Gotowka</label>
               </div>
             </div>
           </div>
@@ -168,8 +178,8 @@ export default function PaymentForm() {
             <label htmlFor='czy_powt'>Czy powtarzalna?</label>
           </div>
           <select
-            name='co_ile'
-            id='co_ile'
+            name='interval'
+            id='interval'
             className={isRecurring ? 'border-2' : 'hidden'}
           >
             <option value='' disabled>

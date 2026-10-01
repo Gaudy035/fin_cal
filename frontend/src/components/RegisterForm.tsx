@@ -37,12 +37,17 @@ export default function RegisterForm() {
         onSubmit={handleSubmit}
       >
         <h1 className='font-bold text-2xl'>REJESTRACJA</h1>
-        <InputTemp inpType='text' inpText='Imie:' inpId='imie' inpName='imie' />
+        <InputTemp
+          inpType='text'
+          inpText='Imie:'
+          inpId='first_name'
+          inpName='first_name'
+        />
         <InputTemp
           inpType='text'
           inpText='Nazwisko:'
-          inpId='nazwisko'
-          inpName='nazwisko'
+          inpId='last_name'
+          inpName='last_name'
         />
         <InputTemp
           inpType='email'
@@ -53,8 +58,8 @@ export default function RegisterForm() {
         <InputTemp
           inpType='password'
           inpText='Haslo:'
-          inpId='haslo'
-          inpName='haslo'
+          inpId='password'
+          inpName='password'
         />
         <ButtonTemp
           btnClick={() => console.log('SignIN!!!')}

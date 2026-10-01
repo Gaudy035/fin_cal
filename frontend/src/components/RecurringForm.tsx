@@ -5,8 +5,8 @@ import { useState, useEffect, type SyntheticEvent } from 'react';
 import api from '../api';
 
 interface Kategoria {
-  id_kategorii: number;
-  nazwa: string;
+  category_id: number;
+  category_name: string;
 }
 
 export default function RecurringForm() {
@@ -50,37 +50,37 @@ export default function RecurringForm() {
           {/* Lewa strona */}
           <div className='flex flex-col justify-center items-center gap-6 min-h-full'>
             <InputTemp
-              inpId='tytul'
+              inpId='title'
               inpText='Tytul:'
-              inpName='tytul'
+              inpName='title'
               inpType='text'
-              inpVal={editData?.tytul}
+              inpVal={editData?.title}
             />
 
             <textarea
-              name='opis'
-              id='opis'
+              name='description'
+              id='description'
               placeholder='Opis:'
               required
               className='bg-neutral-800 border-2 border-white py-2 px-4 resize-none'
-              defaultValue={editData?.opis}
+              defaultValue={editData?.description}
             ></textarea>
 
             <InputTemp
-              inpId='konto'
+              inpId='account'
               inpText='Konto:'
-              inpName='konto'
+              inpName='account'
               inpType='number'
-              inpVal={editData?.konto}
+              inpVal={editData?.account}
               optional
             />
 
             <InputTemp
-              inpId='wlasciciel_konta'
+              inpId='account_owner'
               inpText='Wlasciciel Konta:'
-              inpName='wlasciciel_konta'
+              inpName='account_owner'
               inpType='text'
-              inpVal={editData?.wlasciciel_konta}
+              inpVal={editData?.account_owner}
               optional
             />
           </div>
@@ -88,41 +88,41 @@ export default function RecurringForm() {
           {/* Prawa strona */}
           <div className='flex flex-col justify-center items-center gap-6'>
             <InputTemp
-              inpId='nastepny_termin'
+              inpId='next_date'
               inpText='Nastepny termin:'
-              inpName='nastepny_termin'
+              inpName='next_date'
               inpType='date'
-              inpVal={editData?.nastepny_termin}
+              inpVal={editData?.next_date}
             />
 
             <InputTemp
-              inpId='kwota'
+              inpId='amount'
               inpText='Kwota:'
-              inpName='kwota'
+              inpName='amount'
               inpType='number'
-              inpVal={editData?.kwota}
+              inpVal={editData?.amount}
             />
 
             <div className='flex justify-between items-center min-w-full px-2'>
               <div className='flex gap-2 justify-center items-center'>
                 <input
                   type='radio'
-                  name='typ'
-                  id='wydatek'
-                  value='wydatek'
-                  defaultChecked={editData?.typ === 'wydatek'}
+                  name='transaction_type'
+                  id='expense'
+                  value='expense'
+                  defaultChecked={editData?.transaction_type === 'expense'}
                 />
-                <label htmlFor='wydatek'>Wydatek</label>
+                <label htmlFor='expense'>Wydatek</label>
               </div>
               <div className='flex gap-2 justify-center items-center'>
                 <input
                   type='radio'
-                  name='typ'
-                  id='wplyw'
-                  value='wplyw'
-                  defaultChecked={editData?.typ === 'wplyw'}
+                  name='transaction_type'
+                  id='income'
+                  value='income'
+                  defaultChecked={editData?.transaction_type === 'income'}
                 />
-                <label htmlFor='wplyw'>Wplyw</label>
+                <label htmlFor='income'>Wplyw</label>
               </div>
             </div>
 
@@ -130,9 +130,9 @@ export default function RecurringForm() {
               <p>Kategoria:</p>
               {kategorie.length > 0 ? (
                 <select
-                  defaultValue={editData?.id_kategorii}
-                  name='id_kategorii'
-                  id='id_kategorii'
+                  defaultValue={editData?.category_id}
+                  name='category_id'
+                  id='category_id'
                   className='border-2'
                   required
                 >
@@ -140,8 +140,8 @@ export default function RecurringForm() {
                     ---
                   </option>
                   {kategorie.map((item) => (
-                    <option key={item.id_kategorii} value={item.id_kategorii}>
-                      {item.nazwa}
+                    <option key={item.category_id} value={item.category_id}>
+                      {item.category_name}
                     </option>
                   ))}
                 </select>
@@ -153,23 +153,23 @@ export default function RecurringForm() {
             <div className='flex justify-between items-center min-w-full px-2'>
               <div className='flex gap-2 justify-center items-center'>
                 <input
-                  defaultChecked={editData?.metoda === 'przelew'}
+                  defaultChecked={editData?.transaction_method === 'przelew'}
                   type='radio'
                   name='metoda'
-                  id='przelew'
-                  value='przelew'
+                  id='transfer'
+                  value='transfer'
                 />
-                <label htmlFor='przelew'>Przelew</label>
+                <label htmlFor='transfer'>Przelew</label>
               </div>
               <div className='flex gap-2 justify-center items-center'>
                 <input
-                  defaultChecked={editData?.metoda === 'gotowka'}
+                  defaultChecked={editData?.transaction_method === 'gotowka'}
                   type='radio'
                   name='metoda'
-                  id='gotowka'
-                  value='gotowka'
+                  id='cash'
+                  value='cash'
                 />
-                <label htmlFor='gotowka'>Gotowka</label>
+                <label htmlFor='cash'>Gotowka</label>
               </div>
             </div>
           </div>
@@ -178,16 +178,16 @@ export default function RecurringForm() {
           <div className='flex justify-center items-center gap-2'>
             <input
               type='checkbox'
-              name='czy_aktywna'
-              defaultChecked={editData?.czy_aktywna === true}
+              name='is_active'
+              defaultChecked={editData?.is_active === true}
             />
-            <label htmlFor='czy_aktywna'>Czy aktywna?</label>
+            <label htmlFor='is_active'>Czy aktywna?</label>
           </div>
           <select
-            name='co_ile'
-            id='co_ile'
+            name='interval'
+            id='interval'
             className='border-2'
-            defaultValue={editData?.co_ile}
+            defaultValue={editData?.interval}
           >
             <option value='' disabled>
               Co ile?
